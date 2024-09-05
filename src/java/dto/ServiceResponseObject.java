@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 public class ServiceResponseObject implements Serializable{
   private  boolean sucsess;
-   private String data;
+   private Object data;
 
     @Override
     public String toString() {

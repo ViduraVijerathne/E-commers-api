@@ -4,6 +4,9 @@
  */
 package entity;
 
+import com.google.gson.Gson;
+import config.MyGson;
+import dto.ShopDTO;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,7 +55,26 @@ public class ShopEntity implements Serializable{
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
-
+    
+    
     // Getters and Setters
+
+    @Override
+    public String toString() {
+        Gson gson =new  Gson();
+        return gson.toJson(this);
+    }
+    
+    public ShopDTO toDTO(){
+        ShopDTO dto = new ShopDTO();
+        dto.setId(id);
+        dto.setShopName(shopName);
+        dto.setShopAddress(shopAddress);
+        dto.setCity(city);
+        dto.setDistrict(district);
+        dto.setContact(contact);
+        dto.setUser(user.toDTO());
+        return dto;
+    }
 }
 
