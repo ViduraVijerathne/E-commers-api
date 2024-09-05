@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ShopRegister extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().write("maru");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
     }
     
     

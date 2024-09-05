@@ -18,8 +18,15 @@ public class AuthUtil {
         UserDTO userDTO = (UserDTO) httpServletRequest.getSession().getAttribute("user");
         if (userDTO == null) {
             return false;
-        } else return userDTO.isVerified();
+        } else {
+            return userDTO.isVerified();
+        }
 
+    }
+
+    public static UserDTO getCurrentUser(HttpServletRequest httpServletRequest) {
+        UserDTO userDTO = (UserDTO) httpServletRequest.getSession().getAttribute("user");
+        return userDTO;
     }
 
 }
