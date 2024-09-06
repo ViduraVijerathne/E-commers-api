@@ -22,4 +22,10 @@ public class ProductRepository extends Repository {
 
         return entity;
     }
+    
+    public ProductEntity getByProductID(int id){
+        session = getSession();
+        ProductEntity entity = (ProductEntity)session.load(ProductEntity.class, id);
+        return entity;
+    }
 }
