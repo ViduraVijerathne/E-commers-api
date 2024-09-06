@@ -7,6 +7,7 @@ package services;
 import dto.ServiceResponse;
 import dto.ServiceResponseObject;
 import dto.ShopDTO;
+import dto.UserDTO;
 import entity.ShopEntity;
 import exceptions.ServiceException;
 import exceptions.ValidationException;
@@ -34,7 +35,7 @@ public class ShopService implements Service {
 
                 if (shops.isEmpty()) {
                     ShopEntity entity = shopRepository.save(shopDTO);
-                    
+
                     response.setData(new ServiceResponseObject(true, entity));
                     response.setStatusCode(200);
                 } else {
@@ -49,6 +50,25 @@ public class ShopService implements Service {
             throw new ServiceException(new ServiceResponseObject(false, ex.getMessage()).toString(), 400);
         }
 
+        return response;
+    }
+
+    public ServiceResponse getByUser(UserDTO dto) throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+        try {
+            List<ShopEntity> shops = shopRepository.getByUserId(dto.getId());
+            if(shops.isEmpty()){
+                response.setStatusCode(204);
+                response.setData(new ServiceResponseObject(true,"no shop found"));
+                return response;
+            }else{
+                response.setStatusCode(200);
+                response.setData(new ServiceResponseObject(true,shops.get(0)));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
         return response;
     }
 

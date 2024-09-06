@@ -23,6 +23,9 @@ public class ServiceResponse {
 
     @Override
     public String toString() {
+        if(data == null){
+            return "null";
+        }
         return data.toString();
     }
     

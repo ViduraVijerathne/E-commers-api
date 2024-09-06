@@ -3,13 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/repository/Repository.java</file>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/Verification.java</file>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/services/UserServices.java</file>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/Register.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/services/ShopService.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/entity/ShopEntity.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/dto/UserDTO.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/repository/ShopRepository.java</file>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/repository/UserRepository.java</file>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/Login.java</file>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/dto/AuthDTO.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/shop/ShopRegister.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/entity/UserEntity.java</file>
         </group>
     </open-files>
 </project-private>
