@@ -12,7 +12,9 @@ import entity.ShopEntity;
 import exceptions.ServiceException;
 import exceptions.ValidationException;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import repository.ShopRepository;
+import utils.MyFileManager;
 
 /**
  *
@@ -26,7 +28,7 @@ public class ShopService implements Service {
         this.shopRepository = new ShopRepository();
     }
 
-    public ServiceResponse register(ShopDTO shopDTO) throws ServiceException {
+    public ServiceResponse register(ShopDTO shopDTO,HttpServletRequest req) throws ServiceException {
         ServiceResponse response = new ServiceResponse();
         try {
             if (shopDTO.isValidate()) {
@@ -35,7 +37,7 @@ public class ShopService implements Service {
 
                 if (shops.isEmpty()) {
                     ShopEntity entity = shopRepository.save(shopDTO);
-
+                    MyFileManager.createShopFolder(String.valueOf(entity.getId()), req);
                     response.setData(new ServiceResponseObject(true, entity));
                     response.setStatusCode(200);
                 } else {
@@ -57,13 +59,13 @@ public class ShopService implements Service {
         ServiceResponse response = new ServiceResponse();
         try {
             List<ShopEntity> shops = shopRepository.getByUserId(dto.getId());
-            if(shops.isEmpty()){
+            if (shops.isEmpty()) {
                 response.setStatusCode(204);
-                response.setData(new ServiceResponseObject(true,"no shop found"));
+                response.setData(new ServiceResponseObject(true, "no shop found"));
                 return response;
-            }else{
+            } else {
                 response.setStatusCode(200);
-                response.setData(new ServiceResponseObject(true,shops.get(0)));
+                response.setData(new ServiceResponseObject(true, shops.get(0)));
             }
         } catch (Exception ex) {
             ex.printStackTrace();

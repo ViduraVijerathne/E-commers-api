@@ -5,11 +5,14 @@
         <group>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/services/ShopService.java</file>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/entity/ShopEntity.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/user/Login.java</file>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/dto/UserDTO.java</file>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/repository/ShopRepository.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/hibernate.cfg.xml</file>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/repository/UserRepository.java</file>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/shop/ShopRegister.java</file>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/entity/UserEntity.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/nbproject/build-impl.xml</file>
         </group>
     </open-files>
 </project-private>

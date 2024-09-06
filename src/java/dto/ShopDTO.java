@@ -71,16 +71,16 @@ public class ShopDTO implements Serializable {
         if (user == null) {
             throw new ValidationException("User is required.");
         }
-        if(shopName.length() > 44){
+        if (shopName.length() > 44) {
             throw new ValidationException("shop name length too long. only 45 characters ");
         }
-        if(shopAddress.length() > 44){
+        if (shopAddress.length() > 44) {
             throw new ValidationException("shop address length too long. only 45 characters ");
         }
-        if(city.length() > 44){
+        if (city.length() > 44) {
             throw new ValidationException(" city length too long. only 45 characters ");
         }
-         if(district.length() > 44){
+        if (district.length() > 44) {
             throw new ValidationException(" district length too long. only 45 characters ");
         }
         return true;
@@ -96,17 +96,20 @@ public class ShopDTO implements Serializable {
         Gson gson = new Gson();
         return gson.fromJson(req.getReader(), ShopDTO.class);
     }
-    
-    public ShopEntity toEntity(){
-        ShopEntity entity =  new ShopEntity();
+
+    public ShopEntity toEntity() {
+        ShopEntity entity = new ShopEntity();
         entity.setId(id);
         entity.setShopName(shopName);
         entity.setShopAddress(shopAddress);
         entity.setCity(city);
         entity.setDistrict(district);
         entity.setContact(contact);
-        entity.setUser(user.toEntity());
-        return  entity;
+        if (user != null) {
+            entity.setUser(user.toEntity());
+
+        }
+        return entity;
     }
 
 }

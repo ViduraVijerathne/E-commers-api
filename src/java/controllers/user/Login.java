@@ -48,4 +48,11 @@ public class Login extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.getWriter().write("maru");
+    }
+    
+    
+
 }

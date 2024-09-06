@@ -5,6 +5,7 @@
 package entity;
 
 import dto.Gender;
+import dto.ProductDTO;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -61,6 +62,10 @@ public class ProductEntity implements Serializable{
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
+    
+    public ProductDTO toDTO(){
+        return new ProductDTO(id, name, description, gender, price, shipping, shop.toDTO(), category.toDTO());
+    }
 
     // Getters and Setters
 }

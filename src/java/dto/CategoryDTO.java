@@ -4,6 +4,9 @@
  */
 package dto;
 
+import com.google.gson.annotations.Expose;
+import entity.CategoryEntity;
+import exceptions.ValidationException;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +23,12 @@ import lombok.Setter;
 @Setter
 public class CategoryDTO implements Serializable {
 
+    @Expose
     private int id;
+    @Expose
     private String name;
-
+    public CategoryEntity toEntity(){
+        return new CategoryEntity(id,name);
+    }
+    
 }

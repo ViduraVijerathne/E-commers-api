@@ -4,6 +4,7 @@
  */
 package entity;
 
+import dto.CategoryDTO;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,12 +27,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CategoryEntity  implements Serializable{
-     @Id
+public class CategoryEntity implements Serializable {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    public CategoryDTO toDTO() {
+        return new CategoryDTO(id, name);
+    }
 
 }

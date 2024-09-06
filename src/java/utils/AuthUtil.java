@@ -28,5 +28,6 @@ public class AuthUtil {
         UserDTO userDTO = (UserDTO) httpServletRequest.getSession().getAttribute("user");
         return userDTO;
     }
+    
 
 }
