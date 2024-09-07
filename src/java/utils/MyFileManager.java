@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
@@ -73,34 +74,42 @@ public class MyFileManager {
         }
 
     }
-}
 
-//        String savePath = request.getServletContext().getRealPath("") + "//shops/" + shopID + "/" + pId;
-//        System.out.println("PATH ====================== " + savePath);
-//        // Validate file count (1 to 3)
-//        if (fileParts.size() < 1 || fileParts.size() > 3) {
-////            resp.getWriter().write("You must upload between 1 to 3 images.");
-//            return;
-//        }
-//
-//        int imageCount = 1;
-//        for (Part part : fileParts) {
-//            // Validate file type (only png and jpg)
-//            String fileName = part.getSubmittedFileName();
-//            if (!fileName.endsWith(".png") && !fileName.endsWith(".jpg") && !fileName.endsWith(".jpeg")) {
-////                resp.getWriter().write("Only PNG and JPG images are allowed.");
-//                return;
-//            }
-//
-//            // Save the file as 1.png, 2.png, 3.png, etc.
-//            String filePath = savePath + "/" + imageCount + ".png";
-//            System.out.println("FILEPATH " + filePath);
-//            InputStream inputStream = part.getInputStream();
-//            File newFile = new File(filePath);
-//            Files.copy(
-//                    inputStream,
-//                    newFile.toPath(),
-//                    StandardCopyOption.REPLACE_EXISTING
-//            );
-//            imageCount++;
-//        }
+    public static List<String> getProductImagesRealPath(int shopId, int pid, HttpServletRequest request) throws IOException {
+        List<String> paths = new ArrayList<>();
+
+        // Get the application path (where the images are stored)
+        String applicationPath = request.getServletContext().getRealPath("");
+        String folderPath = applicationPath + "\\shops\\" + shopId + "\\" + pid;
+
+        // Create a File object for the folder path
+        File folder = new File(folderPath);
+
+        // Check if the folder exists
+        if (folder.exists() && folder.isDirectory()) {
+            // List all files in the directory
+            File[] files = folder.listFiles();
+
+            // Loop through all files and add the file paths to the list
+            if (files != null) {
+                for (File file : files) {
+                    // Ensure it's a file and not a directory
+                    if (file.isFile()) {
+                        // Add the absolute file path to the list
+                        paths.add(file.getAbsolutePath());
+                    }
+                }
+            }
+        }
+
+        return paths;
+    }
+
+    public static String getProductImageRealPath(String imageID, HttpServletRequest request) throws IOException {
+        // Get the application path (where the images are stored)
+        String applicationPath = request.getServletContext().getRealPath("");
+        String folderPath = applicationPath + "\\shops" +imageID;
+        return folderPath;
+    }
+
+}
