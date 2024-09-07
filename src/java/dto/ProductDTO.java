@@ -78,19 +78,25 @@ public class ProductDTO implements Serializable {
         Gson gson = new Gson();
         return gson.fromJson(req.getReader(), ProductDTO.class);
     }
-    
-    public ProductEntity toEntity(){
-        ProductEntity e= new ProductEntity();
+
+    public ProductEntity toEntity() {
+        ProductEntity e = new ProductEntity();
         e.setId(id);
         e.setName(name);
         e.setDescription(description);
         e.setGender(gender);
         e.setPrice(price);
         e.setShipping(shipping);
-        e.setShop(shop.toEntity());
-        e.setCategory(category.toEntity());
+        if (shop != null) {
+            e.setShop(shop.toEntity());
+
+        }
+        if (category != null) {
+            e.setCategory(category.toEntity());
+
+        }
         return e;
-        
+
     }
 
 }

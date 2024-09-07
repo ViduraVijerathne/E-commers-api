@@ -5,6 +5,9 @@
 package repository;
 
 import entity.CategoryEntity;
+import java.util.ArrayList;
+import java.util.List;
+import org.hibernate.Criteria;
 
 /**
  *
@@ -18,6 +21,14 @@ public class CategoryRepository extends Repository {
 
         return c;
 
+    }
+    
+    public List<CategoryEntity> getAll(){
+        List<CategoryEntity> list = new ArrayList<>();
+        session = getSession();
+        Criteria criteria = session.createCriteria(CategoryEntity.class);
+        list  = criteria.list();
+        return list;
     }
 
 }

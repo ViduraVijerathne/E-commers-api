@@ -44,4 +44,12 @@ public class Validators {
         // You can add additional password rules here (e.g., at least one number, one special character, etc.)
         return validateField(password, "Password", 8, 45); // Assuming a minimum length of 8 for password
     }
+
+    public static boolean validateColor(String color) {
+        // Regular expression for a valid hex color code (3 or 6 hexadecimal characters)
+        String hexPattern = "^[A-Fa-f0-9]{6}$|^[A-Fa-f0-9]{3}$";
+
+        // Validate if the color matches the hex pattern
+        return color != null && color.matches(hexPattern);
+    }
 }

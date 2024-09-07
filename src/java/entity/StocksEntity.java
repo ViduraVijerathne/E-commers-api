@@ -5,6 +5,7 @@
 package entity;
 
 import dto.Size;
+import dto.StockDTO;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +26,6 @@ import lombok.Setter;
  *
  * @author vidur
  */
-
 @Entity
 @Table(name = "stocks")
 @AllArgsConstructor
@@ -33,27 +33,39 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StocksEntity implements Serializable {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    
     @Column(name = "color", nullable = false, length = 6)
     private String color;
-
+    
     @Enumerated(EnumType.STRING)
     @Column(name = "size", nullable = false)
     private Size size;
-
+    
     @Column(name = "qty", nullable = false)
     private int quantity;
-
+    
     @Column(name = "color_name", nullable = false)
     private String colorName;
-
+    
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private ProductEntity product;
 
     // Getters and Setters
+    public StockDTO toDTO() {
+        StockDTO dto = new StockDTO();
+        dto.setId(id);
+        dto.setColor(color);
+        dto.setColorName(colorName);
+        dto.setQuantity(quantity);
+        dto.setSize(size);
+        if (product != null) {
+            dto.setProduct(product.toDTO());
+        }
+        return dto;
+    }
 }
