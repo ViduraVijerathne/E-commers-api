@@ -4,6 +4,7 @@
  */
 package services;
 
+import dto.Gender;
 import dto.ProductDTO;
 import dto.ServiceResponse;
 import dto.ServiceResponseObject;
@@ -13,12 +14,15 @@ import entity.ProductEntity;
 import entity.ShopEntity;
 import exceptions.ServiceException;
 import exceptions.ValidationException;
+import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.core.Response;
 import org.hibernate.ObjectNotFoundException;
 import repository.CategoryRepository;
 import repository.ProductRepository;
 import repository.ShopRepository;
 import repository.UserRepository;
+import utils.Validators;
 
 /**
  *
@@ -80,6 +84,76 @@ public class ProductService implements Service {
 
         }
         return response;
+    }
+
+    public ServiceResponse search(String pid, String shopid, String productName, String limit,
+            String categoryId, String gender, String priceGreaterThan,
+            String priceLowerThan) throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+        int productID = 0;
+        int shopID = 0;
+        int limit_ = 0;
+        int catID = 0;
+        Gender gen = Gender.UNISEX;
+        double pgt = -1;
+        double plt = -1;
+
+        try {
+            if (pid != null) {
+                Validators.validateInt(pid, "product id");
+                productID = Integer.parseInt(pid);
+//                if (pid.equals("0")) {
+//                    throw new ValidationException("productID cannot be 0");
+//                }
+            }
+            if (shopid != null) {
+                Validators.validateInt(shopid, "shop id");
+                shopID = Integer.parseInt(shopid);
+
+            }
+            if (limit != null) {
+                Validators.validateInt(limit, "limit");
+                limit_ = Integer.parseInt(limit);
+
+            }
+            if (categoryId != null) {
+                Validators.validateInt(categoryId, "category id");
+                catID = Integer.parseInt(categoryId);
+
+            }
+            if (priceGreaterThan != null) {
+                Validators.validateInt(priceGreaterThan, "greater than price ");
+                pgt = Double.parseDouble(priceGreaterThan);
+
+            }
+            if (priceLowerThan != null) {
+                Validators.validateInt(priceLowerThan, "lower than price ");
+                plt = Double.parseDouble(priceLowerThan);
+
+            }
+            if (gender != null) {
+                Validators.ValidateGender(gender);
+                gen = Gender.valueOf(gender);
+            } else {
+                gen = null;
+            }
+
+            List<ProductEntity> search = productRepository.search(productID, shopID, productName, limit_, catID, gen, pgt, plt);
+            List<ProductDTO> dtos = new ArrayList<>();
+            for (ProductEntity e : search) {
+                dtos.add(e.toDTO());
+            }
+            response.setData(new ServiceResponseObject(true,dtos));
+            response.setStatusCode(200);
+            return response;
+        } catch (ValidationException ex) {
+            throw new ServiceException(ex.getMessage(), 400);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(ex.getMessage(), 400);
+
+        }
+
     }
 
 }

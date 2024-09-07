@@ -4,6 +4,7 @@
  */
 package utils;
 
+import dto.Gender;
 import exceptions.ValidationException;
 
 /**
@@ -51,5 +52,40 @@ public class Validators {
 
         // Validate if the color matches the hex pattern
         return color != null && color.matches(hexPattern);
+    }
+
+    public static boolean validateInt(String value, String fieldName) throws ValidationException {
+        try {
+            int intValue = Integer.parseInt(value);
+
+        } catch (NumberFormatException e) {
+            throw new ValidationException(fieldName + " must be a valid integer.");
+        }
+        return true;
+    }
+
+    // Method to validate double values within a specified range
+    public static boolean validateDouble(String value, String fieldName) throws ValidationException {
+        try {
+            double doubleValue = Double.parseDouble(value);
+
+        } catch (NumberFormatException e) {
+            throw new ValidationException(fieldName + " must be a valid double.");
+        }
+        return true;
+    }
+
+    public static boolean ValidateGender(String gender) throws ValidationException {
+        try {
+            Gender g = Gender.valueOf(gender);
+            if (g == null) {
+                throw new ValidationException("not valid gender");
+            }
+        } catch (Exception ex) {
+            throw new ValidationException("not valid gender");
+        }
+
+        return true;
+
     }
 }
