@@ -1,6 +1,7 @@
 package entity;
 
 import dto.CartDTO;
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CartEntity {
+public class CartEntity  implements Serializable{
 
     @Id
     @Column(name = "user_id", nullable = false)

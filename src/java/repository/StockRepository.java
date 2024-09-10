@@ -5,6 +5,7 @@
 package repository;
 
 import entity.StocksEntity;
+import entity.WishlistEntity;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -40,6 +41,12 @@ public class StockRepository extends Repository {
             ex.printStackTrace();
             return new ArrayList<>();
         }
+    }
+
+    public StocksEntity get(int stockID) {
+        session = getSession();
+        StocksEntity entity = (StocksEntity) session.get(StocksEntity.class, stockID);
+        return entity;
     }
 
 }
