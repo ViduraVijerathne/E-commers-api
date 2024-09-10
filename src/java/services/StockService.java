@@ -4,6 +4,7 @@
  */
 package services;
 
+import dto.ProductDTO;
 import dto.ServiceResponse;
 import dto.ServiceResponseObject;
 import dto.StockDTO;
@@ -11,9 +12,12 @@ import entity.ProductEntity;
 import entity.StocksEntity;
 import exceptions.ServiceException;
 import exceptions.ValidationException;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.ObjectNotFoundException;
 import repository.ProductRepository;
 import repository.StockRepository;
+import utils.Validators;
 
 /**
  *
@@ -57,6 +61,31 @@ public class StockService implements Service {
 
         }
         return response;
+    }
+
+    public ServiceResponse getProductStocks(String pid) throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+
+        try {
+            if (Validators.validateInt(pid, "not valid product id")) {
+                int productID = Integer.parseInt(pid);
+                List<StocksEntity> stockEntities = stockRepository.getByProductID(productID);
+                List<StockDTO> dtos = new ArrayList<>();
+                for (StocksEntity e : stockEntities) {
+                    dtos.add(e.toDTO());
+                }
+                response.setData(new ServiceResponseObject(true, dtos));
+                response.setStatusCode(200);
+                return response;
+            }
+        } catch (ValidationException ex) {
+            throw new ServiceException(ex.getMessage(), 400);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(ex.getMessage(), 400);
+
+        }
+        return null;
     }
 
 }

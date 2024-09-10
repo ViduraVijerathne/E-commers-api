@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/shop/ProductImageUpload.java</file>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/utils/MyFileManager.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/dto/Size.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/dto/StockDTO.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/dto/ProductDTO.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/entity/ProductEntity.java</file>
         </group>
     </open-files>
 </project-private>

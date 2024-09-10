@@ -55,7 +55,7 @@ public class ProductDTO implements Serializable {
         if (description == null) {
             throw new ValidationException("please enter the product description");
         }
-        if (description.length() > 44 || description.length() < 2) {
+        if (description.length() > 199 || description.length() < 2) {
             throw new ValidationException("please enter the product description length should between 2 and 45 ");
         }
         if (gender == null) {
