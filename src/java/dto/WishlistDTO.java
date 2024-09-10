@@ -40,8 +40,8 @@ public class WishlistDTO  implements Serializable {
     private ProductDTO product;
 
     public boolean isValidate() throws ValidationException {
-        if (userId <= 0) {
-            throw new ValidationException("Invalid user ID.");
+        if (user  == null) {
+            throw new ValidationException("no user");
         }
         if (productId <= 0) {
             throw new ValidationException("Invalid product ID.");

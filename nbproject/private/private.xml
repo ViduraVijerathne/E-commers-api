@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/dto/Size.java</file>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/dto/StockDTO.java</file>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/dto/ProductDTO.java</file>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/entity/ProductEntity.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/services/WishListService.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/repository/WishListRepository.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/entity/WishlistEntity.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/user/WishList.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/shop/ProductStock.java</file>
         </group>
     </open-files>
 </project-private>
