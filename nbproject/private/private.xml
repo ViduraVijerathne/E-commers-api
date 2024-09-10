@@ -6,8 +6,10 @@
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/services/WishListService.java</file>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/repository/WishListRepository.java</file>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/entity/WishlistEntity.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/repository/CategoryRepository.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/repository/UserRepository.java</file>
+            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/services/CategoryService.java</file>
             <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/user/WishList.java</file>
-            <file>file:/C:/Users/vidur/OneDrive/Documents/NetBeansProjects/viver_web3/src/java/controllers/shop/ProductStock.java</file>
         </group>
     </open-files>
 </project-private>

@@ -14,7 +14,9 @@
         <mapping class="entity.ProductEntity"/>   
         <mapping class="entity.ShopEntity"/>   
         <mapping class="entity.StocksEntity"/>   
-        <mapping class="entity.WishlistEntity"/>   
+        <mapping class="entity.WishlistEntity"/>           
+        <mapping class="entity.CartEntity"/>   
+
 
 
     </session-factory>
