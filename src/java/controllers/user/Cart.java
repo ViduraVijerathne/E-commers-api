@@ -25,13 +25,14 @@ import utils.AuthUtil;
  */
 @WebServlet(name = "Cart", urlPatterns = {"/auth/user/cart"})
 public class Cart extends HttpServlet {
+
     private CartService cartService;
 
     @Override
     public void init() throws ServletException {
         cartService = new CartService();
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
@@ -40,7 +41,27 @@ public class Cart extends HttpServlet {
         cart.setUserId(currentUser.getId());
 
         try {
-            ServiceResponse response = cartService.addToCart(cart,currentUser);
+            ServiceResponse response = cartService.addToCart(cart, currentUser);
+            resp.getWriter().print(response.toString());
+            resp.setStatus(response.getStatusCode());
+        } catch (ServiceException ex) {
+            ex.printStackTrace();
+            resp.setStatus(ex.getStatusCode());
+            resp.getWriter().write(ex.getMessage());
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        UserDTO currentUser = AuthUtil.getCurrentUser(req);
+
+        try {
+            System.out.println("=============CONTROLLER START============================");
+            ServiceResponse response = cartService.getAll(currentUser);
+            System.out.println(response.toString());
+            System.out.println("=============CONTROLLER END============================");
+
             resp.getWriter().print(response.toString());
             resp.setStatus(response.getStatusCode());
         } catch (ServiceException ex) {

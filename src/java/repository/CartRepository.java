@@ -5,6 +5,7 @@
 package repository;
 
 import entity.CartEntity;
+import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -37,14 +38,22 @@ public class CartRepository extends Repository {
         CartEntity entity = (CartEntity) criteria.uniqueResult();
         return entity;
     }
-    
-    public CartEntity update(CartEntity entity){
-        session  = getSession();
+
+    public CartEntity update(CartEntity entity) {
+        session = getSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
         session.update(entity);
         transaction.commit();
-        return  entity;
+        return entity;
+    }
+
+    public List<CartEntity> get(int userID) {
+        session = getSession();
+        Criteria criteria = session.createCriteria(CartEntity.class);
+        criteria.add(Restrictions.eq("user.id", userID));
+        List<CartEntity> data = criteria.list();
+        return data;
     }
 
 }

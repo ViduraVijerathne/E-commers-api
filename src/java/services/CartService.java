@@ -14,6 +14,8 @@ import entity.StocksEntity;
 import entity.UserEntity;
 import exceptions.ServiceException;
 import exceptions.ValidationException;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.ObjectNotFoundException;
 import repository.CartRepository;
 import repository.ProductRepository;
@@ -85,4 +87,35 @@ public class CartService implements Service {
         return response;
     }
 
+    public ServiceResponse getAll(UserDTO user) throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+        try {
+            UserEntity entity = userRepository.getByEmail(user.getEmail());
+            if (entity != null) {
+                List<CartEntity> entities = cartRepository.get(entity.getId());
+                List<CartDTO> dtos = new ArrayList<>();
+                for (CartEntity e : entities) {
+                    dtos.add(e.toDTO());
+                }
+                System.out.println("=========================");
+                System.out.println(dtos.size());
+                response.setData(new ServiceResponseObject(true, dtos));
+                response.setStatusCode(200);
+            } else {
+                throw new ServiceException(new ServiceResponseObject(false, " user not found").toString(), 400);
+
+            }
+        } catch (ServiceException ex) {
+            throw ex;
+        } catch (ObjectNotFoundException ex) {
+            throw new ServiceException(new ServiceResponseObject(false, " user not found").toString(), 400);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, ex.getMessage()).toString(), 400);
+
+        }
+        return response;
+
+    }
 }
