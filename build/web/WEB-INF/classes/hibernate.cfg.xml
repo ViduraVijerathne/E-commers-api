@@ -19,6 +19,7 @@
         <mapping class="entity.AddressBookEntity"/>   
         <mapping class="entity.DistrictEntity"/>   
         <mapping class="entity.OrderEntity"/>   
+        <mapping class="entity.OrderItemEntity"/>
 
 
 

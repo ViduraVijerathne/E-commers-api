@@ -1,71 +1,56 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dto;
 
-/**
- *
- * @author vidur
- */
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import entity.OrderEntity;
-import exceptions.ValidationException;
-import java.io.IOException;
-import java.io.Serializable;
-import javax.servlet.http.HttpServletRequest;
-import lombok.AllArgsConstructor;
+import entity.OrderItemEntity;
+import entity.UserEntity;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
 
-@AllArgsConstructor
-@NoArgsConstructor
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class OrderDTO implements Serializable {
 
     @Expose
     private int id;
-
     @Expose
     private String remarks;
-
     @Expose
-    private int qty;
-
+    private OrderStatus status;  // Store as String for simplicity
     @Expose
-    private OrderStatus status; 
+    private Date datetime;
     @Expose
     private AddressBookDTO addressBook;
-
-    public boolean isValidate() throws ValidationException {
-        if (qty <= 0) {
-            throw new ValidationException("Quantity must be greater than zero");
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
-
-    public static OrderDTO fromRequest(HttpServletRequest req) throws IOException {
-        Gson gson = new Gson();
-        return gson.fromJson(req.getReader(), OrderDTO.class);
-    }
+    @Expose
+    private UserDTO user;
+    @Expose
+    private List<OrderItemDTO> orderItems;
 
     public OrderEntity toEntity() {
-        OrderEntity entity = new OrderEntity();
-        entity.setId(id);
-        entity.setRemarks(remarks);
-        entity.setQty(qty);
-        entity.setStatus(status);
-        entity.setAddressBook(addressBook.toEntity());
-        return entity;
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setId(this.id);
+        orderEntity.setRemarks(this.remarks);
+        orderEntity.setStatus(this.status);
+        orderEntity.setDatetime(this.datetime);
+        orderEntity.setAddressBook(this.addressBook.toEntity()); // Convert using given AddressBookEntity
+        orderEntity.setUser(user.toEntity()); // Convert using given UserEntity
+        List<OrderItemEntity> items = new ArrayList<>();
+        for( OrderItemDTO i : orderItems){
+            items.add(i.toEntity());
+        }
+        orderEntity.setOrderItems(items);
+        return orderEntity;
     }
 }
-

@@ -1,53 +1,64 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
 
-/**
- *
- * @author vidur
- */
 import dto.OrderDTO;
 import dto.OrderStatus;
 import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
-import lombok.*;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "orders")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-public class OrderEntity implements Serializable {
-
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class OrderEntity implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "remarks")
+    @Column(name = "remarks", length = 45)
     private String remarks;
 
-    @Column(name = "qty", nullable = false)
-    private int qty;
-    
-    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private OrderStatus status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status; // Create an Enum for status
+
+    @Column(name = "datetime", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date datetime;
 
     @ManyToOne
     @JoinColumn(name = "addressbook_id", nullable = false)
     private AddressBookEntity addressBook;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItemEntity> orderItems;
+    
+    
     public OrderDTO toDTO() {
         OrderDTO dto = new OrderDTO();
-        dto.setId(id);
-        dto.setRemarks(remarks);
-        dto.setQty(qty);
-        dto.setStatus(status);
-        dto.setAddressBook(addressBook.toDTO());
+        dto.setId(this.id);
+        dto.setRemarks(this.remarks);
+        dto.setStatus(this.status);
+        dto.setDatetime(this.datetime);
+        dto.setAddressBook(this.addressBook.toDTO());
+        dto.setUser(this.user.toDTO());
+        dto.setOrderItems(this.orderItems.stream().map(OrderItemEntity::toDTO).collect(Collectors.toList()));
         return dto;
     }
 }
-
