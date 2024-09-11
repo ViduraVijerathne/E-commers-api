@@ -51,7 +51,9 @@ public class AddressBookDTO implements Serializable {
 
     @Expose
     private DistrictDTO district;
-
+    @Expose
+    private UserDTO user;
+    
     public boolean isValidate() throws ValidationException {
         if (city == null || city.isEmpty()) {
             throw new ValidationException("City cannot be empty");
@@ -90,6 +92,7 @@ public class AddressBookDTO implements Serializable {
         entity.setContact(contact);
         entity.setName(name);
         entity.setDistrict(district.toEntity());
+        entity.setUser(user.toEntity());
         return entity;
     }
 }

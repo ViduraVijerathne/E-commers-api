@@ -13,27 +13,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.AuthUtil;
 
 /**
  *
  * @author vidur
  */
-@WebServlet(name = "AddressBook", urlPatterns = {"/addressBook"})
+@WebServlet(name = "AddressBook", urlPatterns = {"/auth/user/addressbook"})
 public class AddressBook extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
-        AddressBookDTO dto  = new AddressBookDTO(
-        1,
-                "city",
-                "line1",
-                "line2",
-                "postalcode",
-               "contact",
-                "name",
-                new DistrictDTO(1,"kurunegala")
-        );
+        AddressBookDTO dto  = AddressBookDTO.fromRequest(req);
+        resp.getWriter().print(dto);
     }
 
 }

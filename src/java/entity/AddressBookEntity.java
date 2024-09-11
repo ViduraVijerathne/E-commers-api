@@ -19,7 +19,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AddressBookEntity implements Serializable{
+public class AddressBookEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +47,10 @@ public class AddressBookEntity implements Serializable{
     @JoinColumn(name = "district_id", nullable = false)
     private DistrictEntity district;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+    
     public AddressBookDTO toDTO() {
         AddressBookDTO dto = new AddressBookDTO();
         dto.setId(id);
@@ -57,6 +61,7 @@ public class AddressBookEntity implements Serializable{
         dto.setContact(contact);
         dto.setName(name);
         dto.setDistrict(district.toDTO());
+        dto.setUser(user.toDTO());
         return dto;
     }
 }
