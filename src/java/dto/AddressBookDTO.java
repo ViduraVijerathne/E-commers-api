@@ -53,10 +53,14 @@ public class AddressBookDTO implements Serializable {
     private DistrictDTO district;
     @Expose
     private UserDTO user;
-    
+
     public boolean isValidate() throws ValidationException {
         if (city == null || city.isEmpty()) {
             throw new ValidationException("City cannot be empty");
+        }
+        if (city.length() > 44) {
+            throw new ValidationException("city name too long");
+
         }
         if (line1 == null || line1.isEmpty()) {
             throw new ValidationException("Address line 1 cannot be empty");
@@ -64,8 +68,20 @@ public class AddressBookDTO implements Serializable {
         if (postalcode == null || postalcode.isEmpty()) {
             throw new ValidationException("postal code cannot be empty");
         }
+        if (line2 != null && line2.length() > 44) {
+            throw new ValidationException("address line2 too long");
+
+        }
+        if (line1.length() > 44) {
+            throw new ValidationException("address line too long");
+
+        }
         if (postalcode.length() < 5) {
             throw new ValidationException("postal code must be more than 5 char");
+        }
+        if (postalcode.length() > 10) {
+            throw new ValidationException("postal code too long");
+
         }
         Validators.validateInt(postalcode, "postalcode");
         return true;

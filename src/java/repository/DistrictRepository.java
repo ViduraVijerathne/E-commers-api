@@ -12,12 +12,18 @@ import org.hibernate.Criteria;
  *
  * @author vidur
  */
-public class DistrictRepository extends Repository{
-    
-    public List<DistrictEntity> get(){
+public class DistrictRepository extends Repository {
+
+    public List<DistrictEntity> get() {
         session = getSession();
         Criteria criteria = session.createCriteria(DistrictEntity.class);
         return criteria.list();
     }
-    
+
+    public DistrictEntity get(int id) {
+        session = getSession();
+        DistrictEntity entity = (DistrictEntity) session.load(DistrictEntity.class, id);
+        return entity;
+    }
+
 }
