@@ -118,4 +118,47 @@ public class CartService implements Service {
         return response;
 
     }
+
+    public ServiceResponse removeFromCart(CartDTO dto, UserDTO user) throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+        try {
+            if (dto.isValidate()) {
+                try {
+                    StocksEntity stocksEntity = stockRepository.get(dto.getStocksId());
+                    UserEntity userEntity = userRepository.getByEmail(user.getEmail());
+
+                    CartEntity cartEntity = new CartEntity();
+                    cartEntity.setCartQty(dto.getCartQty());
+                    cartEntity.setStocks(stocksEntity);
+                    cartEntity.setUser(userEntity);
+                    cartEntity.setStocksId(stocksEntity.getId());
+                    cartEntity.setUserId(userEntity.getId());
+
+                    CartEntity existOne = cartRepository.get(stocksEntity.getId(), userEntity.getId());
+                    if (existOne == null) {
+                        throw new ServiceException(new ServiceResponseObject(false, "this cart not exist in your cart").toString(), 400);
+
+                    }else{
+                       CartEntity removedEntity = cartRepository.remove(existOne);
+                         response.setData(new ServiceResponseObject(true, removedEntity.toDTO()));
+                    response.setStatusCode(200);
+                    }
+                } catch (ObjectNotFoundException ex) {
+                    throw new ServiceException(new ServiceResponseObject(false, " stock  not found in your cart").toString(), 400);
+
+                }
+            }
+        } catch (ValidationException ex) {
+            throw new ServiceException(new ServiceResponseObject(false, ex.getMessage()).toString(), 400);
+
+        } catch (ServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, ex.getMessage()).toString(), 400);
+
+        }
+        return response;
+
+    }
 }

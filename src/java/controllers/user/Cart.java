@@ -71,4 +71,22 @@ public class Cart extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        UserDTO currentUser = AuthUtil.getCurrentUser(req);
+        CartDTO cart = CartDTO.fromRequest(req);
+        cart.setUserId(currentUser.getId());
+
+        try {
+            ServiceResponse response = cartService.removeFromCart(cart, currentUser);
+            resp.getWriter().print(response.toString());
+            resp.setStatus(response.getStatusCode());
+        } catch (ServiceException ex) {
+            ex.printStackTrace();
+            resp.setStatus(ex.getStatusCode());
+            resp.getWriter().write(ex.getMessage());
+        }
+    }
+
 }

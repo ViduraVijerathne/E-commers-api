@@ -5,6 +5,7 @@
 package repository;
 
 import entity.CartEntity;
+import entity.WishlistEntity;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Transaction;
@@ -54,6 +55,15 @@ public class CartRepository extends Repository {
         criteria.add(Restrictions.eq("user.id", userID));
         List<CartEntity> data = criteria.list();
         return data;
+    }
+    
+    public CartEntity remove(CartEntity entity){
+        session = getSession();
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        session.delete(entity);
+        transaction.commit();
+        return entity;
     }
 
 }
