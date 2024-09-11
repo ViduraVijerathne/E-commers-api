@@ -4,8 +4,12 @@
  */
 package repository;
 
+import dto.UserDTO;
 import entity.AddressBookEntity;
+import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -20,6 +24,14 @@ public class AddressBookRepository extends Repository {
         entity.setId(id);
         transaction.commit();
         return entity;
+    }
+
+    public List<AddressBookEntity> get(UserDTO user) {
+        session = getSession();
+        Criteria criteria = session.createCriteria(AddressBookEntity.class);
+        criteria.add(Restrictions.eq("user.id", user.getId()));
+        List<AddressBookEntity> entities = criteria.list();
+        return entities;
     }
 
 }

@@ -7,11 +7,14 @@ package services;
 import dto.AddressBookDTO;
 import dto.ServiceResponse;
 import dto.ServiceResponseObject;
+import dto.UserDTO;
 import entity.AddressBookEntity;
 import entity.DistrictEntity;
 import entity.UserEntity;
 import exceptions.ServiceException;
 import exceptions.ValidationException;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.ObjectNotFoundException;
 import repository.AddressBookRepository;
 import repository.DistrictRepository;
@@ -71,4 +74,33 @@ public class AddressBookService implements Service {
         return response;
     }
 
+    public ServiceResponse getAll(UserDTO dto) throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+        try {
+            UserEntity entity = userRepository.getByEmail(dto.getEmail());
+            if (entity != null) {
+                List<AddressBookEntity> entities = addressBookRepository.get(dto);
+                List<AddressBookDTO> dtos = new ArrayList<>();
+                for (AddressBookEntity e : entities) {
+                    dtos.add(e.toDTO());
+                }
+                response.setData(new ServiceResponseObject(true, dtos));
+                response.setStatusCode(200);
+            } else {
+                throw new ServiceException(new ServiceResponseObject(false, " user not found").toString(), 400);
+
+            }
+        } catch (ServiceException ex) {
+            throw ex;
+        } catch (ObjectNotFoundException ex) {
+            throw new ServiceException(new ServiceResponseObject(false, " user not found").toString(), 400);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, ex.getMessage()).toString(), 400);
+
+        }
+        return response;
+
+    }
 }
