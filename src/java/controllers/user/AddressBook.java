@@ -48,4 +48,21 @@ public class AddressBook extends HttpServlet {
         }
     }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        try {
+            ServiceResponse response = addressBookService.getAll(AuthUtil.getCurrentUser(req));
+            resp.getWriter().print(response.toString());
+            resp.setStatus(response.getStatusCode());
+        } catch (ServiceException ex) {
+            ex.printStackTrace();
+            resp.setStatus(ex.getStatusCode());
+            resp.getWriter().write(ex.getMessage());
+        }
+    }
+    
+    
+    
+
 }
