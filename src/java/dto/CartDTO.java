@@ -32,7 +32,6 @@ public class CartDTO implements Serializable {
     private int cartQty;
     
     @Expose
-   
     private StockDTO stock;
     
   
