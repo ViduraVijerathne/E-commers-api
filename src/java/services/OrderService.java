@@ -16,7 +16,9 @@ import entity.UserEntity;
 import exceptions.ServiceException;
 import exceptions.ValidationException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.hibernate.ObjectNotFoundException;
 import repository.OrderRepository;
 import repository.ShopRepository;
@@ -77,8 +79,9 @@ public class OrderService implements Service {
                     ShopEntity shopEntity = shops.get(0);
 
                     List<OrderItemEntity> orders = orderRepository.get(shopEntity);
-                    List<OrderItemDTO> dtos = new ArrayList<>();
-                    for (OrderItemEntity e : orders) {
+                   List<OrderEntity>  responseOrder =  convertToOrder(orders);
+                    List<OrderDTO> dtos = new ArrayList<>();
+                    for (OrderEntity e : responseOrder) {
                         dtos.add(e.toDTO());
                     }
                     response.setData(new ServiceResponseObject(true, dtos));
@@ -102,6 +105,38 @@ public class OrderService implements Service {
 
         }
         return response;
+    }
+
+    private List<OrderEntity> convertToOrder(List<OrderItemEntity> orderItems) {
+        Map<Integer, List<OrderItemEntity>> map = new HashMap<>();
+        Map<Integer, OrderEntity> ordersEntityMap = new HashMap<>();
+
+        for (OrderItemEntity i : orderItems) {
+
+            //getting order entity
+            int orderID = i.getOrder().getId();
+            List<OrderItemEntity> itemEntity = map.get(orderID);
+            if (itemEntity == null) {
+                itemEntity = new ArrayList<>();
+                itemEntity.add(i);
+            } else {
+                itemEntity.add(i);
+            }
+            map.put(orderID, itemEntity);
+
+            //getting orders
+            ordersEntityMap.put(orderID, i.getOrder());
+
+        }
+        List<OrderEntity> orderEntity = new ArrayList<>();
+        for (int orderID : ordersEntityMap.keySet()) {
+            OrderEntity order = ordersEntityMap.get(orderID);
+            List<OrderItemEntity> orderItemsList = map.get(orderID);
+            order.setOrderItems(orderItemsList);
+            orderEntity.add(order);
+        }
+
+        return orderEntity;
     }
 
 }
