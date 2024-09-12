@@ -33,5 +33,10 @@ public class AddressBookRepository extends Repository {
         List<AddressBookEntity> entities = criteria.list();
         return entities;
     }
+    public AddressBookEntity get(int id){
+        session = getSession();
+        AddressBookEntity entity = (AddressBookEntity) session.load(AddressBookEntity.class, id);
+        return entity;
+    }
 
 }

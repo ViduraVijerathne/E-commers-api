@@ -61,7 +61,7 @@ public class ShopEntity implements Serializable{
 
     @Override
     public String toString() {
-        Gson gson =new  Gson();
+        Gson gson = MyGson.excludeFieldsWithoutExposeAnnotation();
         return gson.toJson(this);
     }
     

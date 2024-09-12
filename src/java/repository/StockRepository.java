@@ -49,4 +49,38 @@ public class StockRepository extends Repository {
         return entity;
     }
 
+    synchronized public void substractStock(int stockID, int qty) {
+    session = getSession();
+    Transaction transaction = session.beginTransaction();
+    try {
+        // Fetch the StocksEntity by stockID
+        StocksEntity stock = (StocksEntity) session.get(StocksEntity.class, stockID);
+        
+        if (stock != null) {
+            // Check if enough stock is available
+            int currentStock = stock.getQuantity();
+            if (currentStock >= qty) {
+                // Subtract the qty from the stock
+                stock.setQuantity(currentStock - qty);
+                
+                // Update the stock entity in the database
+                session.update(stock);
+                transaction.commit();
+            } else {
+                // If there is not enough stock, throw an exception
+                throw new IllegalArgumentException("Not enough stock available.");
+            }
+        } else {
+            throw new IllegalArgumentException("Stock with ID " + stockID + " not found.");
+        }
+    } catch (Exception ex) {
+        if (transaction != null) {
+            transaction.rollback();  // Rollback in case of an error
+        }
+        ex.printStackTrace();
+        throw ex;  // Rethrow the exception after logging it
+    }
+}
+
+
 }

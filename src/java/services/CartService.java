@@ -4,23 +4,37 @@
  */
 package services;
 
+import com.google.gson.Gson;
+import dto.AddressBookDTO;
 import dto.CartDTO;
+import dto.OrderStatus;
+import dto.PaymentObject;
 import dto.ServiceResponse;
 import dto.ServiceResponseObject;
 import dto.UserDTO;
 import dto.WishlistDTO;
+import entity.AddressBookEntity;
 import entity.CartEntity;
+import entity.OrderEntity;
+import entity.OrderItemEntity;
 import entity.StocksEntity;
 import entity.UserEntity;
 import exceptions.ServiceException;
 import exceptions.ValidationException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.hibernate.ObjectNotFoundException;
+import repository.AddressBookRepository;
 import repository.CartRepository;
+import repository.OrderRepository;
 import repository.ProductRepository;
 import repository.StockRepository;
 import repository.UserRepository;
+import utils.PaymentUtils;
 
 /**
  *
@@ -31,11 +45,15 @@ public class CartService implements Service {
     private StockRepository stockRepository;
     private UserRepository userRepository;
     private CartRepository cartRepository;
+    private AddressBookRepository addressBookRepository;
+    private OrderRepository orderRepository;
 
     public CartService() {
         this.stockRepository = new StockRepository();
         this.userRepository = new UserRepository();
         this.cartRepository = new CartRepository();
+        this.addressBookRepository = new AddressBookRepository();
+        this.orderRepository = new OrderRepository();
 
     }
 
@@ -138,10 +156,10 @@ public class CartService implements Service {
                     if (existOne == null) {
                         throw new ServiceException(new ServiceResponseObject(false, "this cart not exist in your cart").toString(), 400);
 
-                    }else{
-                       CartEntity removedEntity = cartRepository.remove(existOne);
-                         response.setData(new ServiceResponseObject(true, removedEntity.toDTO()));
-                    response.setStatusCode(200);
+                    } else {
+                        CartEntity removedEntity = cartRepository.remove(existOne);
+                        response.setData(new ServiceResponseObject(true, removedEntity.toDTO()));
+                        response.setStatusCode(200);
                     }
                 } catch (ObjectNotFoundException ex) {
                     throw new ServiceException(new ServiceResponseObject(false, " stock  not found in your cart").toString(), 400);
@@ -160,5 +178,113 @@ public class CartService implements Service {
         }
         return response;
 
+    }
+
+    synchronized private OrderEntity makeOrderObject(List<CartEntity> cart, UserDTO user) throws ServiceException {
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setDatetime(new Date());
+        orderEntity.setRemarks("");
+        orderEntity.setStatus(OrderStatus.PAYMENTPROCESSING);
+        orderEntity.setOrderItems(new ArrayList<>());
+
+        try {
+            UserEntity userEntity = userRepository.getByEmail(user.getEmail());
+            orderEntity.setUser(userEntity);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, "user not found").toString(), 400);
+
+        }
+        for (CartEntity cartItem : cart) {
+            StocksEntity stock = stockRepository.get(cartItem.getStocksId());
+            if (stock != null) {
+                if (cartItem.getCartQty() > stock.getQuantity()) {
+                    throw new ServiceException(new ServiceResponseObject(false, "that quantity not found in " + cartItem.getStocks().getProduct().getName()).toString(), 400);
+
+                } else {
+                    OrderItemEntity itemEntity = new OrderItemEntity();
+                    itemEntity.setStocks(stock);
+                    itemEntity.setQty(cartItem.getCartQty());
+                    orderEntity.addOrderItem(itemEntity);
+                }
+            } else {
+                throw new ServiceException("stock not found!", 400);
+
+            }
+        }
+        return orderEntity;
+    }
+
+    
+    public ServiceResponse checkOut(AddressBookDTO address, UserDTO user) throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+        if (address == null) {
+            throw new ServiceException(new ServiceResponseObject(false, "address not found").toString(), 400);
+        }
+        try {
+            if (address.getId() > 0) {
+                try {
+                    AddressBookEntity addressEntity = addressBookRepository.get(address.getId());
+                    if (addressEntity != null) {
+                        if (addressEntity.getUser().getId() == user.getId()) {
+                            List<CartEntity> cart = cartRepository.get(user.getId());
+                            if (cart != null) {
+                                if (!cart.isEmpty()) {
+                                    OrderEntity orderEntity = makeOrderObject(cart, user);
+                                    orderEntity.setAddressBook(addressEntity);
+                                    OrderEntity savedEntity = orderRepository.add(orderEntity);
+                                    for (OrderItemEntity i : savedEntity.getOrderItems()) {
+                                        int stockID = i.getStocks().getId();
+                                        int qty = i.getQty();
+                                        stockRepository.substractStock(stockID, qty);
+                                    }
+//                                    for (CartEntity c : cart) {
+//                                        CartEntity removedEntity = cartRepository.remove(c);
+//                                    }
+                                     PaymentObject payhereObj = PaymentUtils.makePayhereObject(orderEntity);
+                                    Gson gson = new Gson();
+                                    String json  = gson.toJson(payhereObj);
+                                    
+                                    response.setData(new ServiceResponseObject(true,payhereObj));
+                                    response.setStatusCode(200);
+                                } else {
+                                    throw new ServiceException(new ServiceResponseObject(false, "cart is empty").toString(), 400);
+
+                                }
+                            } else {
+                                throw new ServiceException(new ServiceResponseObject(false, "cart not exist").toString(), 400);
+
+                            }
+                        } else {
+                            throw new ServiceException(new ServiceResponseObject(false, "address is not yours").toString(), 400);
+
+                        }
+                    } else {
+                        throw new ServiceException(new ServiceResponseObject(false, "address not found").toString(), 400);
+                    }
+                } catch (ObjectNotFoundException ex) {
+                    ex.printStackTrace();
+                    throw new ServiceException(new ServiceResponseObject(false, "address not found").toString(), 400);
+
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+                    throw new ServiceException(new ServiceResponseObject(false, "address not found").toString(), 400);
+
+                }
+
+            } else {
+                throw new ValidationException("please enter address");
+            }
+        } catch (ValidationException ex) {
+            throw new ServiceException(new ServiceResponseObject(false, ex.getMessage()).toString(), 400);
+
+        } catch (ServiceException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, ex.getMessage()).toString(), 400);
+
+        }
+        return response;
     }
 }

@@ -3,6 +3,7 @@ package entity;
 import dto.OrderDTO;
 import dto.OrderStatus;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -60,5 +61,11 @@ public class OrderEntity implements Serializable{
         dto.setUser(this.user.toDTO());
         dto.setOrderItems(this.orderItems.stream().map(OrderItemEntity::toDTO).collect(Collectors.toList()));
         return dto;
+    }
+    
+     // Add method to set order to each OrderItem
+    public void addOrderItem(OrderItemEntity orderItem) {
+        orderItem.setOrder(this);  // Set this order to orderItem
+        this.orderItems.add(orderItem);
     }
 }
