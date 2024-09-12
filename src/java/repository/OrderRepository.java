@@ -5,8 +5,13 @@
 package repository;
 
 import entity.OrderEntity;
+import entity.UserEntity;
 import java.io.Serializable;
+import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -30,4 +35,11 @@ public class OrderRepository extends Repository {
         }
     }
 
+    public List<OrderEntity> get(UserEntity user) {
+        session = getSession();
+        Criteria criteria = session.createCriteria(OrderEntity.class);
+        criteria.add(Restrictions.eq("user.id", user.getId()));
+        criteria.addOrder(Order.desc("datetime"));
+        return criteria.list();
+    }
 }
