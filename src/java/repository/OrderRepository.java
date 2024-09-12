@@ -5,6 +5,8 @@
 package repository;
 
 import entity.OrderEntity;
+import entity.OrderItemEntity;
+import entity.ShopEntity;
 import entity.UserEntity;
 import java.io.Serializable;
 import java.util.List;
@@ -40,6 +42,20 @@ public class OrderRepository extends Repository {
         Criteria criteria = session.createCriteria(OrderEntity.class);
         criteria.add(Restrictions.eq("user.id", user.getId()));
         criteria.addOrder(Order.desc("datetime"));
+        return criteria.list();
+    }
+
+    public List<OrderItemEntity> get(ShopEntity shop) {
+        session = getSession();
+        Criteria criteria = session.createCriteria(OrderItemEntity.class, "orderItem");
+//        criteria.add(Restrictions.eq("stocks.product.shop.id", shop.getId()));
+        // Create aliases for navigating the associations
+        criteria.createAlias("orderItem.stocks", "stocks");            // Alias for stocks
+        criteria.createAlias("stocks.product", "product");             // Alias for product
+        criteria.createAlias("product.shop", "shop");                  // Alias for shop
+
+        // Add restriction to filter by shop ID
+        criteria.add(Restrictions.eq("shop.id", shop.getId()));
         return criteria.list();
     }
 }
