@@ -6,6 +6,7 @@ package services;
 
 import dto.OrderDTO;
 import dto.OrderItemDTO;
+import dto.OrderStatus;
 import dto.ServiceResponse;
 import dto.ServiceResponseObject;
 import dto.UserDTO;
@@ -19,10 +20,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import org.hibernate.ObjectNotFoundException;
 import repository.OrderRepository;
 import repository.ShopRepository;
 import repository.UserRepository;
+import utils.Validators;
 
 /**
  *
@@ -79,7 +82,7 @@ public class OrderService implements Service {
                     ShopEntity shopEntity = shops.get(0);
 
                     List<OrderItemEntity> orders = orderRepository.get(shopEntity);
-                   List<OrderEntity>  responseOrder =  convertToOrder(orders);
+                    List<OrderEntity> responseOrder = convertToOrder(orders);
                     List<OrderDTO> dtos = new ArrayList<>();
                     for (OrderEntity e : responseOrder) {
                         dtos.add(e.toDTO());
@@ -139,4 +142,71 @@ public class OrderService implements Service {
         return orderEntity;
     }
 
+    public ServiceResponse updateOrderStatus(UserDTO user, String strOrderID, String strItemID, String strStatus) throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+        try {
+            UserEntity userEntity = userRepository.getByEmail(user.getEmail());
+            if (userEntity != null) {
+
+                Validators.validateInt(strItemID, "item id");
+                Validators.validateInt(strOrderID, "Order id");
+                Validators.validateOrderStatus(strStatus);
+
+                int orderID = Integer.parseInt(strOrderID);
+                int itemID = Integer.parseInt(strItemID);
+                OrderStatus orderStatus = OrderStatus.valueOf(strStatus);
+                OrderEntity orderEntity;
+                try {
+                    orderEntity = orderRepository.get(orderID);
+                    orderEntity.getAddressBook();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    throw new ServiceException(new ServiceResponseObject(false, "order  not found").toString(), 400);
+                }
+
+                for (OrderItemEntity itemEntity : orderEntity.getOrderItems()) {
+                    if(!Objects.equals(itemEntity.getStocks().getProduct().getShop().getUser().getId(), userEntity.getId())){
+                        throw  new ServiceException(new ServiceResponseObject(false, "you have no access to this order item").toString(), 400);
+                    }
+                    if (itemEntity.getId() == itemID) {
+
+                        itemEntity.setStatus(orderStatus);
+                        orderRepository.update(itemEntity);
+
+                        for (OrderItemEntity i : orderEntity.getOrderItems()) {
+                            if (i.getStatus() != i.getStatus()) {
+                                response.setData(new ServiceResponseObject(true, itemEntity.toDTO()));
+                                response.setStatusCode(200);
+                                return response;
+
+                            }
+                        }
+
+                        orderEntity.setStatus(orderStatus);
+                        orderRepository.update(orderEntity);
+                        response.setData(new ServiceResponseObject(true, itemEntity.toDTO()));
+                        response.setStatusCode(200);
+                        return response;
+
+                    }
+                }
+
+                throw new ServiceException(new ServiceResponseObject(false, " order Item not found").toString(), 400);
+
+            } else {
+                throw new ServiceException(new ServiceResponseObject(false, " user not found").toString(), 400);
+
+            }
+        } catch (ServiceException ex) {
+            throw ex;
+        } catch (ObjectNotFoundException ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, "user not found").toString(), 400);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, ex.getMessage()).toString(), 400);
+
+        }
+    }
 }

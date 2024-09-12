@@ -5,6 +5,7 @@
 package utils;
 
 import dto.Gender;
+import dto.OrderStatus;
 import exceptions.ValidationException;
 
 /**
@@ -87,5 +88,14 @@ public class Validators {
 
         return true;
 
+    }
+
+    public static boolean validateOrderStatus(String status) throws ValidationException {
+        try {
+            OrderStatus s = OrderStatus.valueOf(status);
+            return true;
+        } catch (Exception ex) {
+            throw new ValidationException("invalid order status");
+        }
     }
 }

@@ -45,6 +45,12 @@ public class OrderRepository extends Repository {
         return criteria.list();
     }
 
+    public OrderEntity get(int id) {
+        session = getSession();
+        return (OrderEntity) session.load(OrderEntity.class, id);
+
+    }
+
     public List<OrderItemEntity> get(ShopEntity shop) {
         session = getSession();
         Criteria criteria = session.createCriteria(OrderItemEntity.class, "orderItem");
@@ -57,5 +63,22 @@ public class OrderRepository extends Repository {
         // Add restriction to filter by shop ID
         criteria.add(Restrictions.eq("shop.id", shop.getId()));
         return criteria.list();
+    }
+
+    public void update(OrderEntity orderEntity) {
+//        session = getSession();
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        session.update(orderEntity);
+        transaction.commit();
+    }
+
+    public void update(OrderItemEntity orderItemEntity) {
+//        session = getSession();
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        session.update(orderItemEntity);
+        transaction.commit();
+
     }
 }
