@@ -1,6 +1,7 @@
 package entity;
 
 import dto.OrderItemDTO;
+import dto.OrderStatus;
 import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,13 +35,17 @@ public class OrderItemEntity implements Serializable{
     @JoinColumn(name = "stocks_id", nullable = false)
     private StocksEntity stocks;
     
-    
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status; // Create an Enum for status
+
      public OrderItemDTO toDTO() {
         OrderItemDTO dto = new OrderItemDTO();
         dto.setId(this.id);
         dto.setQty(this.qty);
         dto.setOrderId(this.order.getId());
         dto.setStock(this.stocks.toDTO());
+        dto.setStatus(status);
         return dto;
     }
 }

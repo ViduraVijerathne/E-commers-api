@@ -26,15 +26,17 @@ public class OrderItemDTO implements Serializable {
     private int orderId;
     @Expose
     private StockDTO stock;
+    @Expose
+    private OrderStatus status; // Create an Enum for status
 
     public OrderItemEntity toEntity() {
         OrderEntity order = new OrderEntity();
         order.setId(orderId);
-        return new OrderItemEntity(id, qty, order, stock.toEntity());
+        return new OrderItemEntity(id, qty, order, stock.toEntity(),status);
     }
 
     public OrderItemEntity toEntity(OrderEntity entity) {
        
-        return new OrderItemEntity(id, qty, entity, stock.toEntity());
+        return new OrderItemEntity(id, qty, entity, stock.toEntity(),status);
     }
 }
