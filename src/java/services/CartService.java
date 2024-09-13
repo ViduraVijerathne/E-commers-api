@@ -205,6 +205,7 @@ public class CartService implements Service {
                     OrderItemEntity itemEntity = new OrderItemEntity();
                     itemEntity.setStocks(stock);
                     itemEntity.setQty(cartItem.getCartQty());
+                    itemEntity.setStatus(OrderStatus.PAYMENTPROCESSING);
                     orderEntity.addOrderItem(itemEntity);
                 }
             } else {
