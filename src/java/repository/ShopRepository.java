@@ -18,7 +18,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author vidur
  */
-public class ShopRepository extends Repository {
+public class ShopRepository extends Repository<ShopEntity> {
 
     public ArrayList<ShopEntity> getByUserId(int id) {
         System.out.println("SHOP GET ID : "+id);

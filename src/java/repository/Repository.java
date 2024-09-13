@@ -4,6 +4,7 @@
  */
 package repository;
 
+import entity.MyEntity;
 import org.hibernate.Session;
 
 /**
@@ -11,7 +12,7 @@ import org.hibernate.Session;
  * @author vidur
  */
 
-abstract class Repository {
+abstract class Repository<E extends MyEntity> {
     Session session;
 
     public Repository() {

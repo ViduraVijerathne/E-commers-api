@@ -15,13 +15,9 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author vidur
  */
-public class CartRepository extends Repository {
+public class CartRepository extends Repository<CartEntity> {
 
     public CartEntity save(CartEntity entity) {
-        System.out.println(entity.getUserId());
-        System.out.println(entity.getStocksId());
-        System.out.println(entity.getCartQty());
-
         session = getSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();

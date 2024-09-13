@@ -20,7 +20,7 @@ import services.Mail;
  *
  * @author vidur
  */
-public class UserRepository extends Repository {
+public class UserRepository extends Repository<UserEntity> {
 
     public UserEntity getByEmail(String email) {
         session = getSession();

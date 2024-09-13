@@ -15,7 +15,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author vidur
  */
-public class WishListRepository extends Repository {
+public class WishListRepository extends Repository<WishlistEntity> {
     
     public WishlistEntity get(int userID,int productID){
         session = getSession();

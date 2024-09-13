@@ -15,7 +15,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author vidur
  */
-public class AddressBookRepository extends Repository {
+public class AddressBookRepository extends Repository<AddressBookEntity> {
 
     public AddressBookEntity save(AddressBookEntity entity) {
         session = getSession();

@@ -19,7 +19,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author vidur
  */
-public class OrderRepository extends Repository {
+public class OrderRepository extends Repository<OrderEntity> {
 
     public OrderEntity add(OrderEntity entity) {
         try {

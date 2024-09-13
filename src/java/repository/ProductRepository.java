@@ -15,7 +15,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author vidur
  */
-public class ProductRepository extends Repository {
+public class ProductRepository extends Repository<ProductEntity> {
 
     public ProductEntity Save(ProductEntity entity) {
         session = getSession();

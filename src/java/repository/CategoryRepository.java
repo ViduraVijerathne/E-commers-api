@@ -13,7 +13,7 @@ import org.hibernate.Criteria;
  *
  * @author vidur
  */
-public class CategoryRepository extends Repository {
+public class CategoryRepository extends Repository<CategoryEntity> {
 
     public CategoryEntity getById(int id) {
         session = getSession();

@@ -12,7 +12,7 @@ import org.hibernate.Criteria;
  *
  * @author vidur
  */
-public class DistrictRepository extends Repository {
+public class DistrictRepository extends Repository<DistrictEntity> {
 
     public List<DistrictEntity> get() {
         session = getSession();
