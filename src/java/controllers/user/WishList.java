@@ -4,6 +4,7 @@
  */
 package controllers.user;
 
+import dto.DTO;
 import dto.ProductDTO;
 import dto.ServiceResponse;
 import dto.UserDTO;
@@ -37,7 +38,9 @@ public class WishList extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         UserDTO currentUser = AuthUtil.getCurrentUser(req);
-        WishlistDTO whishList = WishlistDTO.fromRequest(req);
+//        WishlistDTO whishList = WishlistDTO.fromRequest(req);
+        WishlistDTO whishList = DTO.fromRequest(req, WishlistDTO.class);
+
         whishList.setUser(currentUser);
 
         try {
@@ -56,7 +59,9 @@ public class WishList extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         UserDTO currentUser = AuthUtil.getCurrentUser(req);
-        WishlistDTO whishList = WishlistDTO.fromRequest(req);
+//        WishlistDTO whishList = WishlistDTO.fromRequest(req);
+        WishlistDTO whishList = DTO.fromRequest(req, WishlistDTO.class);
+
         whishList.setUser(currentUser);
 
         try {
@@ -85,7 +90,5 @@ public class WishList extends HttpServlet {
             resp.getWriter().write(ex.getMessage());
         }
     }
-    
-    
 
 }

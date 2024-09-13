@@ -27,7 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class WishlistEntity implements Serializable{
+public class WishlistEntity extends MyEntity<WishlistDTO>{
     @Id
     @Column(name = "user_id", nullable = false)
     private int userId;
@@ -44,7 +44,19 @@ public class WishlistEntity implements Serializable{
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
     private ProductEntity product;
 
-    public WishlistDTO toDto() {
+    @Override
+    public WishlistDTO toDTO() {
         return new WishlistDTO(userId, productId, user.toDTO(), product.toDTO());
+    }
+
+    
+    @Override
+    public int getId() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void setId(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

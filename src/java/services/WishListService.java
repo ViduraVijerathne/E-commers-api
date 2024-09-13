@@ -53,13 +53,13 @@ public class WishListService implements Service {
 
                     WishlistEntity existEntity = wishListRepository.get(entity.getUserId(), entity.getProductId());
                     if (existEntity != null) {
-                        response.setData(new ServiceResponseObject(true, existEntity.toDto()));
+                        response.setData(new ServiceResponseObject(true, existEntity.toDTO()));
                         response.setStatusCode(201);
                         return response;
                     }
                     WishlistEntity savedEntity = wishListRepository.save(entity);
 
-                    response.setData(new ServiceResponseObject(true, savedEntity.toDto()));
+                    response.setData(new ServiceResponseObject(true, savedEntity.toDTO()));
                     response.setStatusCode(200);
 
                 } catch (ObjectNotFoundException ex) {
@@ -101,7 +101,7 @@ public class WishListService implements Service {
                     }
                     WishlistEntity savedEntity = wishListRepository.remove(existEntity);
 
-                    response.setData(new ServiceResponseObject(true, savedEntity.toDto()));
+                    response.setData(new ServiceResponseObject(true, savedEntity.toDTO()));
                     response.setStatusCode(200);
 
                 } catch (ObjectNotFoundException ex) {
@@ -131,7 +131,7 @@ public class WishListService implements Service {
                 List<WishlistEntity> entities = wishListRepository.getAll(entity);
                 List<WishlistDTO> dtos = new ArrayList<>();
                 for (WishlistEntity e : entities) {
-                    dtos.add(e.toDto());
+                    dtos.add(e.toDTO());
                 }
                 response.setData(new ServiceResponseObject(true, dtos));
                 response.setStatusCode(200);

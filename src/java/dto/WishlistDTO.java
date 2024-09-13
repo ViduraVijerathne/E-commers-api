@@ -25,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class WishlistDTO  implements Serializable {
+public class WishlistDTO  extends DTO<WishlistEntity> {
 
     @Expose
     private int userId;
@@ -55,11 +55,12 @@ public class WishlistDTO  implements Serializable {
         return gson.toJson(this);
     }
 
-    public static WishlistDTO fromRequest(HttpServletRequest req) throws IOException {
-        Gson gson = new Gson();
-        return gson.fromJson(req.getReader(), WishlistDTO.class);
-    }
+//    public static WishlistDTO fromRequest(HttpServletRequest req) throws IOException {
+//        Gson gson = new Gson();
+//        return gson.fromJson(req.getReader(), WishlistDTO.class);
+//    }
 
+    @Override
     public WishlistEntity toEntity() {
         WishlistEntity entity = new WishlistEntity();
         entity.setUserId(userId);
@@ -71,5 +72,15 @@ public class WishlistDTO  implements Serializable {
             entity.setProduct(product.toEntity());
         }
         return entity;
+    }
+
+    @Override
+    public int getId() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void setId(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
