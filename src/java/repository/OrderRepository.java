@@ -25,21 +25,21 @@ public class OrderRepository extends Repository<OrderEntity> {
         super(OrderEntity.class);
     }
 
-    public OrderEntity add(OrderEntity entity) {
-        try {
-
-            session = getSession();
-            Transaction transaction = session.getTransaction();
-            transaction.begin();
-            int id = (Integer) session.save(entity);
-            entity.setId(id);
-            transaction.commit();
-            return entity;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
-    }
+//    public OrderEntity save(OrderEntity entity) {
+//        try {
+//
+//            session = getSession();
+//            Transaction transaction = session.getTransaction();
+//            transaction.begin();
+//            int id = (Integer) session.save(entity);
+//            entity.setId(id);
+//            transaction.commit();
+//            return entity;
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            throw ex;
+//        }
+//    }
 
     public List<OrderEntity> get(UserEntity user) {
         session = getSession();
@@ -49,11 +49,11 @@ public class OrderRepository extends Repository<OrderEntity> {
         return criteria.list();
     }
 
-    public OrderEntity get(int id) {
-        session = getSession();
-        return (OrderEntity) session.load(OrderEntity.class, id);
-
-    }
+//    public OrderEntity get(int id) {
+//        session = getSession();
+//        return (OrderEntity) session.load(OrderEntity.class, id);
+//
+//    }
 
     public List<OrderItemEntity> get(ShopEntity shop) {
         session = getSession();
@@ -69,13 +69,13 @@ public class OrderRepository extends Repository<OrderEntity> {
         return criteria.list();
     }
 
-    public void update(OrderEntity orderEntity) {
-//        session = getSession();
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
-        session.update(orderEntity);
-        transaction.commit();
-    }
+//    public OrderEntity update(OrderEntity orderEntity) {
+////        session = getSession();
+//        Transaction transaction = session.getTransaction();
+//        transaction.begin();
+//        session.update(orderEntity);
+//        transaction.commit();
+//    }
 
     public void update(OrderItemEntity orderItemEntity) {
 //        session = getSession();

@@ -21,16 +21,16 @@ public class ProductRepository extends Repository<ProductEntity> {
         super(ProductEntity.class);
     }
 
-    public ProductEntity Save(ProductEntity entity) {
-        session = getSession();
-        Transaction transaction = session.beginTransaction();
-        int id = (Integer) session.save(entity);
-        entity.setId(id);
-        transaction.commit();
-        
-        return entity;
-    }
-    
+//    public ProductEntity save(ProductEntity entity) {
+//        session = getSession();
+//        Transaction transaction = session.beginTransaction();
+//        int id = (Integer) session.save(entity);
+//        entity.setId(id);
+//        transaction.commit();
+//        
+//        return entity;
+//    }
+//    
     public ProductEntity getByProductID(int id) {
         session = getSession();
         ProductEntity entity = (ProductEntity) session.load(ProductEntity.class, id);

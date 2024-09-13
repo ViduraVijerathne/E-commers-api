@@ -40,8 +40,9 @@ public class UserServices implements Service {
 
         try {
             if (user.isValidate()) {
-                if (userRepository.getByEmail(user.getEmail()) == null) {
-                    UserEntity entity = userRepository.save(user);
+                UserEntity e = userRepository.getByEmail(user.getEmail());
+                if (e == null) {
+                    UserEntity entity = userRepository.save(e);
                     userRepository.sendVCEmail(entity);
                     response.setStatusCode(200);
                     response.setData(new ServiceResponseObject(true, "successfully created"));

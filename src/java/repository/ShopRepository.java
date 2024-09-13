@@ -39,14 +39,14 @@ public class ShopRepository extends Repository<ShopEntity> {
 
     }
 
-    public ShopEntity save(ShopDTO dto) {
-        
-       
-        session = getSession();
-        Transaction transaction = session.beginTransaction();
-        Integer id = (Integer)session.save(dto.toEntity());
-        transaction.commit();
-        dto.setId(id);
-        return dto.toEntity();
-    }
+//    public ShopEntity save(ShopDTO dto) {
+//        
+//       
+//        session = getSession();
+//        Transaction transaction = session.beginTransaction();
+//        Integer id = (Integer)session.save(dto.toEntity());
+//        transaction.commit();
+//        dto.setId(id);
+//        return dto.toEntity();
+//    }
 }

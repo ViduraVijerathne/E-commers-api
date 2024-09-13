@@ -22,14 +22,14 @@ public class StockRepository extends Repository<StocksEntity> {
         super(StocksEntity.class);
     }
 
-    public StocksEntity save(StocksEntity entity) {
-        session = getSession();
-        Transaction transaction = session.beginTransaction();
-        int id = (Integer) session.save(entity);
-        entity.setId(id);
-        transaction.commit();
-        return entity;
-    }
+//    public StocksEntity save(StocksEntity entity) {
+//        session = getSession();
+//        Transaction transaction = session.beginTransaction();
+//        int id = (Integer) session.save(entity);
+//        entity.setId(id);
+//        transaction.commit();
+//        return entity;
+//    }
 
     public List<StocksEntity> getByProductID(int pid) {
         session = getSession();
@@ -47,11 +47,11 @@ public class StockRepository extends Repository<StocksEntity> {
         }
     }
 
-    public StocksEntity get(int stockID) {
-        session = getSession();
-        StocksEntity entity = (StocksEntity) session.get(StocksEntity.class, stockID);
-        return entity;
-    }
+//    public StocksEntity get(int stockID) {
+//        session = getSession();
+//        StocksEntity entity = (StocksEntity) session.get(StocksEntity.class, stockID);
+//        return entity;
+//    }
 
     synchronized public void substractStock(int stockID, int qty) {
     session = getSession();

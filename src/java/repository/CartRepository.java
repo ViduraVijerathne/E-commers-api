@@ -19,17 +19,18 @@ public class CartRepository extends Repository<CartEntity> {
 
     public CartRepository() {
         super(CartEntity.class);
+        setHaveMainPrimatyKey(false);
     }
 
-    public CartEntity save(CartEntity entity) {
-        session = getSession();
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
-        session.save(entity);
-        transaction.commit();
-
-        return entity;
-    }
+//    public CartEntity save(CartEntity entity) {
+//        session = getSession();
+//        Transaction transaction = session.getTransaction();
+//        transaction.begin();
+//        session.save(entity);
+//        transaction.commit();
+//
+//        return entity;
+//    }
 
     public CartEntity get(int stockID, int userID) {
         session = getSession();
@@ -40,14 +41,14 @@ public class CartRepository extends Repository<CartEntity> {
         return entity;
     }
 
-    public CartEntity update(CartEntity entity) {
-        session = getSession();
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
-        session.update(entity);
-        transaction.commit();
-        return entity;
-    }
+//    public CartEntity update(CartEntity entity) {
+//        session = getSession();
+//        Transaction transaction = session.getTransaction();
+//        transaction.begin();
+//        session.update(entity);
+//        transaction.commit();
+//        return entity;
+//    }
 
     public List<CartEntity> getAll(int userID) {
         session = getSession();
@@ -57,13 +58,13 @@ public class CartRepository extends Repository<CartEntity> {
         return data;
     }
     
-    public CartEntity remove(CartEntity entity){
-        session = getSession();
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
-        session.delete(entity);
-        transaction.commit();
-        return entity;
-    }
+//    public CartEntity remove(CartEntity entity){
+//        session = getSession();
+//        Transaction transaction = session.getTransaction();
+//        transaction.begin();
+//        session.delete(entity);
+//        transaction.commit();
+//        return entity;
+//    }
 
 }

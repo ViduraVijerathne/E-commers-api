@@ -31,7 +31,7 @@ public class DistrictService implements Service {
     public ServiceResponse getAll() throws ServiceException {
         ServiceResponse response = new ServiceResponse();
         try {
-            List<DistrictEntity> list = districtRepository.get();
+            List<DistrictEntity> list = districtRepository.getAll();
             List<DistrictDTO> dtos = new ArrayList<>();
             for (DistrictEntity e : list) {
                 dtos.add(e.toDTO());

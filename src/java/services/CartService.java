@@ -233,7 +233,7 @@ public class CartService implements Service {
                                 if (!cart.isEmpty()) {
                                     OrderEntity orderEntity = makeOrderObject(cart, user);
                                     orderEntity.setAddressBook(addressEntity);
-                                    OrderEntity savedEntity = orderRepository.add(orderEntity);
+                                    OrderEntity savedEntity = orderRepository.save(orderEntity);
                                     for (OrderItemEntity i : savedEntity.getOrderItems()) {
                                         int stockID = i.getStocks().getId();
                                         int qty = i.getQty();

@@ -5,6 +5,7 @@
 package repository;
 
 import entity.AddressBookEntity;
+import entity.CartEntity;
 import entity.MyEntity;
 import entity.WishlistEntity;
 import java.util.List;
@@ -63,6 +64,15 @@ abstract class Repository<E extends MyEntity> {
         Transaction transaction = session.getTransaction();
         transaction.begin();
         session.delete(entity);
+        transaction.commit();
+        return entity;
+    }
+    
+    public E update(E entity) {
+        session = getSession();
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        session.update(entity);
         transaction.commit();
         return entity;
     }

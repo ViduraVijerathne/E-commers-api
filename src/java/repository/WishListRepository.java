@@ -19,6 +19,7 @@ public class WishListRepository extends Repository<WishlistEntity> {
 
     public WishListRepository() {
         super(WishlistEntity.class);
+        setHaveMainPrimatyKey(false);
     }
     
     public WishlistEntity get(int userID,int productID){

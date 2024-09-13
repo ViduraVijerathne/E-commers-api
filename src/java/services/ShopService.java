@@ -36,7 +36,7 @@ public class ShopService implements Service {
                 List<ShopEntity> shops = shopRepository.getByUserId(shopDTO.getUser().getId());
 
                 if (shops.isEmpty()) {
-                    ShopEntity entity = shopRepository.save(shopDTO);
+                    ShopEntity entity = shopRepository.save(shopDTO.toEntity());
                     MyFileManager.createShopFolder(String.valueOf(entity.getId()), req);
                     response.setData(new ServiceResponseObject(true, entity));
                     response.setStatusCode(200);

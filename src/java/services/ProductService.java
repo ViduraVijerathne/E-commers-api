@@ -52,7 +52,7 @@ public class ProductService implements Service {
 
                     CategoryEntity categoryEntity = new CategoryEntity();
                     try {
-                        categoryEntity = categoryRepository.getById(product.getCategory().getId());
+                        categoryEntity = categoryRepository.get(product.getCategory().getId());
                         categoryEntity.getId();
                     } catch (ObjectNotFoundException ex) {
                         throw new ServiceException(new ServiceResponseObject(false, "invalid category ID").toString(), 400);
@@ -62,7 +62,7 @@ public class ProductService implements Service {
                         ProductEntity entity = product.toEntity();
                         entity.setCategory(categoryEntity);
                         entity.setShop(shop.get(0));
-                        ProductEntity savedProduct = productRepository.Save(entity);
+                        ProductEntity savedProduct = productRepository.save(entity);
                         response.setData(new ServiceResponseObject(true, savedProduct.toDTO()));
                         response.setStatusCode(200);
                     } else {

@@ -13,26 +13,18 @@ import org.hibernate.Criteria;
  *
  * @author vidur
  */
-public class CategoryRepository extends Repository<CategoryEntity> {
+public class CategoryRepository extends Repository<CategoryEntity>{
 
     public CategoryRepository() {
         super(CategoryEntity.class);
     }
-
-    public CategoryEntity getById(int id) {
-        session = getSession();
-        CategoryEntity c = (CategoryEntity) session.load(CategoryEntity.class, id);
-
-        return c;
-
-    }
-
-    public List<CategoryEntity> getAll() {
-        List<CategoryEntity> list = new ArrayList<>();
-        session = getSession();
-        Criteria criteria = session.createCriteria(CategoryEntity.class);
-        list = criteria.list();
-        return list;
-    }
+//
+//    public List<CategoryEntity> getAll() {
+//        List<CategoryEntity> list = new ArrayList<>();
+//        session = getSession();
+//        Criteria criteria = session.createCriteria(CategoryEntity.class);
+//        list = criteria.list();
+//        return list;
+//    }
 
 }

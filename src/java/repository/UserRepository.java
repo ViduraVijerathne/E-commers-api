@@ -37,11 +37,10 @@ public class UserRepository extends Repository<UserEntity> {
         }
     }
 
-    public UserEntity save(UserDTO user) {
+    public UserEntity save(UserEntity userEntity) {
         session = getSession();
 
         String vc = UUID.randomUUID().toString();
-        UserEntity userEntity = user.toEntity();
         userEntity.setVc(vc);
         Transaction transaction = session.beginTransaction();
         session.save(userEntity);
@@ -75,23 +74,24 @@ public class UserRepository extends Repository<UserEntity> {
         }
     }
 
-    public void update(UserEntity entity) throws ServiceException {
-        session = getSession();
-
-        UserEntity user = (UserEntity) session.load(UserEntity.class, entity.getId());
-        if (user != null) {
-            Transaction transaction = session.beginTransaction();
-
-            user.setEmail(entity.getEmail());
-            user.setFirstName(entity.getFirstName());
-            user.setLastName(entity.getLastName());
-            user.setVerified(entity.isVerified());
-            user.setPassword(entity.getPassword());
-            session.update(user);
-            transaction.commit();
-        } else {
-            throw new ServiceException(new ServiceResponseObject(false, " user not found to update").toString(), 400);
-
-        }
-    }
+    //remove Exception and handle in service class
+//    public void update(UserEntity entity) throws ServiceException {
+//        session = getSession();
+//
+//        UserEntity user = (UserEntity) session.load(UserEntity.class, entity.getId());
+//        if (user != null) {
+//            Transaction transaction = session.beginTransaction();
+//
+//            user.setEmail(entity.getEmail());
+//            user.setFirstName(entity.getFirstName());
+//            user.setLastName(entity.getLastName());
+//            user.setVerified(entity.isVerified());
+//            user.setPassword(entity.getPassword());
+//            session.update(user);
+//            transaction.commit();
+//        } else {
+//            throw new ServiceException(new ServiceResponseObject(false, " user not found to update").toString(), 400);
+//
+//        }
+//    }
 }

@@ -16,16 +16,16 @@ public class DistrictRepository extends Repository<DistrictEntity> {
     public DistrictRepository(){
         super(DistrictEntity.class);
     }
-    public List<DistrictEntity> get() {
-        session = getSession();
-        Criteria criteria = session.createCriteria(DistrictEntity.class);
-        return criteria.list();
-    }
+//    public List<DistrictEntity> getAll() {
+//        session = getSession();
+//        Criteria criteria = session.createCriteria(DistrictEntity.class);
+//        return criteria.list();
+//    }
 
-    public DistrictEntity get(int id) {
-        session = getSession();
-        DistrictEntity entity = (DistrictEntity) session.load(DistrictEntity.class, id);
-        return entity;
-    }
+//    public DistrictEntity get(int id) {
+//        session = getSession();
+//        DistrictEntity entity = (DistrictEntity) session.load(DistrictEntity.class, id);
+//        return entity;
+//    }
 
 }
