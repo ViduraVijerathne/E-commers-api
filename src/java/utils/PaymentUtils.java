@@ -67,7 +67,7 @@ public class PaymentUtils {
         payment.setSandbox(true);  // true if using Sandbox Merchant ID
         payment.setMerchant_id("1221323");  // Replace with your Merchant ID
         payment.setMerchantSecret("Mzc1MTk1NTY2NzMzNTY4MDI3MjMzMzYxOTM0NTUxOTk5MzEwNDg0");  // Replace with your Merchant Secret
-        payment.setNotify_url("http://sample.com/notify");
+        payment.setNotify_url("http://192.168.8.126:8080/viver_web3/afterpayment?key=123");
 
         // Order-related data
         payment.setOrder_id(String.valueOf(order.getId()));
