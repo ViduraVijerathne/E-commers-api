@@ -31,7 +31,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ShopEntity implements Serializable{
+public class ShopEntity extends MyEntity<ShopDTO>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +65,7 @@ public class ShopEntity implements Serializable{
         return gson.toJson(this);
     }
     
+    @Override
     public ShopDTO toDTO(){
         ShopDTO dto = new ShopDTO();
         dto.setId(id);

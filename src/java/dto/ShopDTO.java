@@ -25,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ShopDTO implements Serializable {
+public class ShopDTO extends DTO<ShopEntity> {
 
     @Expose
     private int id;
@@ -47,6 +47,7 @@ public class ShopDTO implements Serializable {
     @Expose
     private UserDTO user;
 
+    @Override
     public boolean isValidate() throws ValidationException {
         if (shopName == null || shopName.trim().isEmpty()) {
             throw new ValidationException("Shop name is required.");
@@ -92,11 +93,9 @@ public class ShopDTO implements Serializable {
         return gson.toJson(this);
     }
 
-    public static ShopDTO fromRequest(HttpServletRequest req) throws IOException {
-        Gson gson = new Gson();
-        return gson.fromJson(req.getReader(), ShopDTO.class);
-    }
+  
 
+    @Override
     public ShopEntity toEntity() {
         ShopEntity entity = new ShopEntity();
         entity.setId(id);

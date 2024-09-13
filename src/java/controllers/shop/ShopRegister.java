@@ -4,6 +4,7 @@
  */
 package controllers.shop;
 
+import dto.DTO;
 import dto.ServiceResponse;
 import dto.ShopDTO;
 import dto.UserDTO;
@@ -36,7 +37,8 @@ public class ShopRegister extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
 
-        ShopDTO shop = ShopDTO.fromRequest(req);
+//        ShopDTO shop = ShopDTO.fromRequest(req);
+        ShopDTO shop = DTO.fromRequest(req,ShopDTO.class);
         shop.setUser(AuthUtil.getCurrentUser(req));
         try {
             ServiceResponse response = shopService.register(shop,req);
