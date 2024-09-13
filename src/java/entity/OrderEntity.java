@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderEntity implements Serializable{
-    
+public class OrderEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -49,8 +49,7 @@ public class OrderEntity implements Serializable{
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> orderItems;
-    
-    
+
     public OrderDTO toDTO() {
         OrderDTO dto = new OrderDTO();
         dto.setId(this.id);
@@ -62,8 +61,8 @@ public class OrderEntity implements Serializable{
         dto.setOrderItems(this.orderItems.stream().map(OrderItemEntity::toDTO).collect(Collectors.toList()));
         return dto;
     }
-    
-     // Add method to set order to each OrderItem
+
+    // Add method to set order to each OrderItem
     public void addOrderItem(OrderItemEntity orderItem) {
         orderItem.setOrder(this);  // Set this order to orderItem
         this.orderItems.add(orderItem);

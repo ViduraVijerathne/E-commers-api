@@ -8,6 +8,7 @@ package entity;
  *
  * @author vidur
  */
+import dto.DTO;
 import dto.DistrictDTO;
 import java.io.Serializable;
 import javax.persistence.*;
@@ -19,7 +20,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DistrictEntity implements Serializable{
+public class DistrictEntity extends MyEntity<DTO>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +29,7 @@ public class DistrictEntity implements Serializable{
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Override
     public DistrictDTO toDTO() {
         DistrictDTO dto = new DistrictDTO();
         dto.setId(id);

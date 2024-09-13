@@ -20,7 +20,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DistrictDTO  implements Serializable{
+public class DistrictDTO  extends DTO<DistrictEntity>{
 
     @Expose
     private int id;
@@ -28,6 +28,7 @@ public class DistrictDTO  implements Serializable{
     @Expose
     private String name;
 
+    @Override
     public boolean isValidate() throws ValidationException {
         if (name == null || name.isEmpty()) {
             throw new ValidationException("District name cannot be empty");
@@ -35,21 +36,15 @@ public class DistrictDTO  implements Serializable{
         return true;
     }
 
+    
+
     @Override
-    public String toString() {
-        Gson gson = MyGson.excludeFieldsWithoutExposeAnnotation();
-        return gson.toJson(this);
-    }
-
-    public static DistrictDTO fromRequest(HttpServletRequest req) throws IOException {
-        Gson gson = new Gson();
-        return gson.fromJson(req.getReader(), DistrictDTO.class);
-    }
-
     public DistrictEntity toEntity() {
         DistrictEntity entity = new DistrictEntity();
         entity.setId(id);
         entity.setName(name);
         return entity;
     }
+
+    
 }
