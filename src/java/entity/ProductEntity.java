@@ -33,7 +33,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductEntity implements Serializable{
+public class ProductEntity extends MyEntity<ProductDTO>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,6 +63,7 @@ public class ProductEntity implements Serializable{
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
     
+    @Override
     public ProductDTO toDTO(){
         return new ProductDTO(id, name, description, gender, price, shipping, shop.toDTO(), category.toDTO());
     }

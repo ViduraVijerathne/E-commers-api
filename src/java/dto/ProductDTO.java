@@ -25,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductDTO implements Serializable {
+public class ProductDTO extends DTO<ProductEntity> {
 
     @Expose
     private int id;
@@ -44,6 +44,7 @@ public class ProductDTO implements Serializable {
     @Expose
     private CategoryDTO category;
 
+    @Override
     public boolean isValidate() throws ValidationException {
         if (name == null) {
             throw new ValidationException("please enter the product name");
@@ -74,11 +75,8 @@ public class ProductDTO implements Serializable {
         return gson.toJson(this);
     }
 
-    public static ProductDTO fromRequest(HttpServletRequest req) throws IOException {
-        Gson gson = new Gson();
-        return gson.fromJson(req.getReader(), ProductDTO.class);
-    }
 
+    @Override
     public ProductEntity toEntity() {
         ProductEntity e = new ProductEntity();
         e.setId(id);

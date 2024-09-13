@@ -5,6 +5,7 @@
 package controllers.shop;
 
 import dto.CategoryDTO;
+import dto.DTO;
 import dto.Gender;
 import dto.ProductDTO;
 import dto.ServiceResponse;
@@ -29,25 +30,26 @@ import utils.MyFileManager;
 public class ProductRegistration extends HttpServlet {
 
     private ProductService productService;
-    
+
     @Override
     public void init() throws ServletException {
         productService = new ProductService();
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
-        ProductDTO product = ProductDTO.fromRequest(req);
-        try{
-            ServiceResponse response = productService.register(product,AuthUtil.getCurrentUser(req));
+//        ProductDTO product = ProductDTO.fromRequest(req);
+        ProductDTO product = DTO.fromRequest(req, ProductDTO.class);
+        try {
+            ServiceResponse response = productService.register(product, AuthUtil.getCurrentUser(req));
             resp.getWriter().print(response.toString());
             resp.setStatus(response.getStatusCode());
         } catch (ServiceException ex) {
             resp.setStatus(ex.getStatusCode());
             resp.getWriter().write(ex.getMessage());
         }
-        
+
     }
-    
+
 }
