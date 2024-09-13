@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import entity.OrderEntity;
 import entity.OrderItemEntity;
 import entity.UserEntity;
+import exceptions.ValidationException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderDTO implements Serializable {
+public class OrderDTO extends DTO<OrderEntity> {
 
     @Expose
     private int id;
@@ -39,6 +40,7 @@ public class OrderDTO implements Serializable {
     @Expose
     private List<OrderItemDTO> orderItems;
 
+    @Override
     public OrderEntity toEntity() {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setId(this.id);
@@ -53,5 +55,10 @@ public class OrderDTO implements Serializable {
         }
         orderEntity.setOrderItems(items);
         return orderEntity;
+    }
+
+    @Override
+    public boolean isValidate() throws ValidationException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderEntity implements Serializable {
+public class OrderEntity extends MyEntity<OrderDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +50,7 @@ public class OrderEntity implements Serializable {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItemEntity> orderItems;
 
+    @Override
     public OrderDTO toDTO() {
         OrderDTO dto = new OrderDTO();
         dto.setId(this.id);
