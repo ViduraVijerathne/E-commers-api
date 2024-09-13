@@ -21,14 +21,14 @@ public class AddressBookRepository extends Repository<AddressBookEntity> {
         super(AddressBookEntity.class);
     }
 
-    public AddressBookEntity save(AddressBookEntity entity) {
-        session = getSession();
-        Transaction transaction = session.beginTransaction();
-        int id = (Integer) session.save(entity);
-        entity.setId(id);
-        transaction.commit();
-        return entity;
-    }
+//    public AddressBookEntity save(AddressBookEntity entity) {
+//        session = getSession();
+//        Transaction transaction = session.beginTransaction();
+//        int id = (Integer) session.save(entity);
+//        entity.setId(id);
+//        transaction.commit();
+//        return entity;
+//    }
 
     public List<AddressBookEntity> get(UserDTO user) {
         session = getSession();
@@ -38,10 +38,10 @@ public class AddressBookRepository extends Repository<AddressBookEntity> {
         return entities;
     }
 
-    public AddressBookEntity get(int id) {
-        session = getSession();
-        AddressBookEntity entity = (AddressBookEntity) session.load(AddressBookEntity.class, id);
-        return entity;
-    }
+//    public AddressBookEntity get(int id) {
+//        session = getSession();
+//        AddressBookEntity entity = (AddressBookEntity) session.load(AddressBookEntity.class, id);
+//        return entity;
+//    }
 
 }
