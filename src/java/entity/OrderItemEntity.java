@@ -18,7 +18,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderItemEntity implements Serializable{
+public class OrderItemEntity extends MyEntity<OrderItemDTO>{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +39,7 @@ public class OrderItemEntity implements Serializable{
     @Enumerated(EnumType.STRING)
     private OrderStatus status; // Create an Enum for status
 
+    @Override
      public OrderItemDTO toDTO() {
         OrderItemDTO dto = new OrderItemDTO();
         dto.setId(this.id);

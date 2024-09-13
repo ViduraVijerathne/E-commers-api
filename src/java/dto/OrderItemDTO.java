@@ -3,6 +3,7 @@ package dto;
 import com.google.gson.annotations.Expose;
 import entity.OrderEntity;
 import entity.OrderItemEntity;
+import exceptions.ValidationException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -16,8 +17,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class OrderItemDTO implements Serializable {
-
+public class OrderItemDTO extends DTO<OrderItemEntity> {
+    
     @Expose
     private int id;
     @Expose
@@ -29,14 +30,20 @@ public class OrderItemDTO implements Serializable {
     @Expose
     private OrderStatus status; // Create an Enum for status
 
+    @Override
     public OrderItemEntity toEntity() {
         OrderEntity order = new OrderEntity();
         order.setId(orderId);
-        return new OrderItemEntity(id, qty, order, stock.toEntity(),status);
+        return new OrderItemEntity(id, qty, order, stock.toEntity(), status);
     }
-
+    
     public OrderItemEntity toEntity(OrderEntity entity) {
-       
-        return new OrderItemEntity(id, qty, entity, stock.toEntity(),status);
+        
+        return new OrderItemEntity(id, qty, entity, stock.toEntity(), status);
+    }
+    
+    @Override
+    public boolean isValidate() throws ValidationException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
