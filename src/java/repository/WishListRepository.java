@@ -29,26 +29,8 @@ public class WishListRepository extends Repository<WishlistEntity> {
         WishlistEntity entity = (WishlistEntity) criteria.uniqueResult();
         return entity;
     }
-
-    public WishlistEntity save(WishlistEntity entity) {
-        session = getSession();
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
-        session.save(entity);
-        transaction.commit();
-        return entity;
-    }
     
-    public WishlistEntity remove(WishlistEntity entity){
-        session = getSession();
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
-        session.delete(entity);
-        transaction.commit();
-        return entity;
-    }
-    
-    public List<WishlistEntity> getAll(UserEntity user){
+    public List<WishlistEntity> getAllByUser(UserEntity user){
         session = getSession();
         Criteria criteria = session.createCriteria(WishlistEntity.class);
         criteria.add(Restrictions.eq("user.id",user.getId()));

@@ -128,7 +128,7 @@ public class WishListService implements Service {
 //            if (true) {
             try {
                 UserEntity entity = userRepository.getByEmail(dto.getEmail());
-                List<WishlistEntity> entities = wishListRepository.getAll(entity);
+                List<WishlistEntity> entities = wishListRepository.getAllByUser(entity);
                 List<WishlistDTO> dtos = new ArrayList<>();
                 for (WishlistEntity e : entities) {
                     dtos.add(e.toDTO());

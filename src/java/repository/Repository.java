@@ -6,7 +6,10 @@ package repository;
 
 import entity.AddressBookEntity;
 import entity.MyEntity;
+import entity.WishlistEntity;
+import java.util.List;
 import lombok.Setter;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -46,6 +49,21 @@ abstract class Repository<E extends MyEntity> {
 
     public E get(int id) {
         E entity = (E) session.load(entityType, id);
+        return entity;
+    }
+
+    public List<E> getAll() {
+        Criteria criteria = session.createCriteria(entityType);
+        return criteria.list();
+
+    }
+
+    public E remove(E entity) {
+        session = getSession();
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        session.delete(entity);
+        transaction.commit();
         return entity;
     }
 
