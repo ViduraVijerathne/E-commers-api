@@ -4,10 +4,7 @@
  */
 package repository;
 
-import entity.AddressBookEntity;
-import entity.CartEntity;
 import entity.MyEntity;
-import entity.WishlistEntity;
 import java.util.List;
 import lombok.Setter;
 import org.hibernate.Criteria;

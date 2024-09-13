@@ -22,6 +22,20 @@ public class AfrerPayment extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String key = req.getParameter("key");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
 
 //        http://192.168.8.126:8080/viver_web3/afterpayment?key=123
         super.doGet(req, resp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody

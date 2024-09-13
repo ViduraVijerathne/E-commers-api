@@ -36,14 +36,14 @@ public class ProductRepository extends Repository<ProductEntity> {
         ProductEntity entity = (ProductEntity) session.load(ProductEntity.class, id);
         return entity;
     }
-    
+
     public List<ProductEntity> search(int pid, int shopid, String productName, int limit,
             int categoryId, Gender gender, double priceGreaterThan,
             double priceLowerThan) {
-        
+
         session = getSession();
-        Transaction transaction = session.beginTransaction();
-        
+//        Transaction transaction = session.beginTransaction();
+
         try {
             Criteria criteria = session.createCriteria(ProductEntity.class);
 
@@ -64,11 +64,13 @@ public class ProductRepository extends Repository<ProductEntity> {
                 criteria.add(Restrictions.eq("gender", gender));
             }
             if (priceGreaterThan > 0) {
-                criteria.add(Restrictions.ge("price", priceGreaterThan));
+                criteria.add(Restrictions.gt("price", priceGreaterThan));
             }
             if (priceLowerThan > 0) {
-                criteria.add(Restrictions.le("price", priceLowerThan));
+                criteria.add(Restrictions.lt("price", priceLowerThan));
             }
+            System.out.println("GREATER THAN " + priceGreaterThan);
+            System.out.println("LOWER THAN " + priceLowerThan);
 
             // Set limit for the number of results
             if (limit > 0) {
@@ -77,15 +79,15 @@ public class ProductRepository extends Repository<ProductEntity> {
 
             // Execute the query and fetch results
             List<ProductEntity> results = criteria.list();
-            transaction.commit();
+//            transaction.commit();
             return results;
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
+//            if (transaction != null) {
+//                transaction.rollback();
+//            }
             e.printStackTrace();
             throw new RuntimeException("Error executing product search.");
         }
-        
+
     }
 }

@@ -97,6 +97,7 @@ public class ProductService implements Service {
         Gender gen = Gender.UNISEX;
         double pgt = -1;
         double plt = -1;
+       
 
         try {
             if (pid != null) {
@@ -137,7 +138,8 @@ public class ProductService implements Service {
             } else {
                 gen = null;
             }
-
+            System.out.println("PGT"+pgt);
+            System.out.println("PLT"+plt);
             List<ProductEntity> search = productRepository.search(productID, shopID, productName, limit_, catID, gen, pgt, plt);
             List<ProductDTO> dtos = new ArrayList<>();
             for (ProductEntity e : search) {

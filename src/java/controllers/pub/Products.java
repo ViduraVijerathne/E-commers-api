@@ -43,7 +43,7 @@ public class Products extends HttpServlet {
         String categoryId = req.getParameter("catId");
         String gender = req.getParameter("gender");
         String priceGreaterThan = req.getParameter("priceGreaterThan");
-        String priceLowerThan = req.getParameter("priceGreaterThan");
+        String priceLowerThan = req.getParameter("priceLessThan");
 
         try {
             ServiceResponse response = ProductService.search(pid, shopid, productName, limit, categoryId, gender, priceGreaterThan, priceLowerThan);

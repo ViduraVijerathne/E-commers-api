@@ -50,6 +50,7 @@ public class UserDTO extends DTO<UserEntity> {
     @Override
     public String toString() {
         Gson gson = MyGson.excludeFieldsWithoutExposeAnnotation();
+        this.setVc("###########");
         return gson.toJson(this);
     }
 
