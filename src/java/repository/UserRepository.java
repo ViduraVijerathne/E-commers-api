@@ -37,6 +37,7 @@ public class UserRepository extends Repository<UserEntity> {
         }
     }
 
+    @Override
     public UserEntity save(UserEntity userEntity) {
         session = getSession();
 
