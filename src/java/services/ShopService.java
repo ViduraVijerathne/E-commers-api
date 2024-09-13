@@ -60,7 +60,7 @@ public class ShopService implements Service {
         try {
             List<ShopEntity> shops = shopRepository.getByUserId(dto.getId());
             System.out.println("==debug==");
-            System.out.println(shops.get(0).getShopName());
+//            System.out.println(shops.get(0).getShopName());
             if (shops.isEmpty()) {
                 response.setStatusCode(204);
                 response.setData(new ServiceResponseObject(true, "no shop found"));
