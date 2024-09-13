@@ -22,7 +22,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CartEntity  implements Serializable{
+public class CartEntity extends MyEntity<CartDTO> {
 
     @Id
     @Column(name = "user_id", nullable = false)
@@ -44,6 +44,17 @@ public class CartEntity  implements Serializable{
     private StocksEntity stocks;
 
     public CartDTO toDTO() {
-        return new CartDTO(userId, stocksId, cartQty,stocks.toDTO());
+        return new CartDTO(userId, stocksId, cartQty, stocks.toDTO());
+    }
+
+    @Override
+    public int getId() {
+        throw new UnsupportedOperationException("Not supported Cart id beacuse cart table id is user and stock id yet.");
+
+    }
+
+    @Override
+    public void setId(int id) {
+        throw new UnsupportedOperationException("Not supported Cart id beacuse cart table id is user and stock id yet.");
     }
 }
