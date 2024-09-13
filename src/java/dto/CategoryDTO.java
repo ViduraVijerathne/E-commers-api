@@ -5,6 +5,7 @@
 package dto;
 
 import com.google.gson.annotations.Expose;
+import entity.CartEntity;
 import entity.CategoryEntity;
 import exceptions.ValidationException;
 import java.io.Serializable;
@@ -21,14 +22,23 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CategoryDTO implements Serializable {
+public class CategoryDTO extends DTO<CategoryEntity>{
 
     @Expose
     private int id;
     @Expose
     private String name;
+    @Override
     public CategoryEntity toEntity(){
         return new CategoryEntity(id,name);
+    }
+
+    @Override
+    public boolean isValidate() throws ValidationException {
+        if(name.length() > 45){
+            throw new ValidationException("category name maximum limit 45");
+        }
+        return true;
     }
     
 }
