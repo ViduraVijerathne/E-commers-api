@@ -4,6 +4,7 @@
  */
 package controllers.shop;
 
+import dto.DTO;
 import dto.Gender;
 import dto.ProductDTO;
 import dto.ServiceResponse;
@@ -40,7 +41,9 @@ public class ProductStock extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
 
-        StockDTO stock = StockDTO.fromRequest(req);
+//        StockDTO stock = StockDTO.fromRequest(req);
+        StockDTO stock = DTO.fromRequest(req,StockDTO.class);
+
        try{
             ServiceResponse response = stockService.AddStock(stock);
             resp.getWriter().print(response.toString());

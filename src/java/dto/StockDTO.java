@@ -26,7 +26,7 @@ import utils.Validators;
 @NoArgsConstructor
 @Getter
 @Setter
-public class StockDTO implements Serializable {
+public class StockDTO extends DTO<StocksEntity> {
 
     @Expose
     private int id;
@@ -41,6 +41,7 @@ public class StockDTO implements Serializable {
     @Expose
     private ProductDTO product;
 
+    @Override
     public boolean isValidate() throws ValidationException {
         if (color == null) {
             throw new ValidationException("please enter color ");
@@ -77,11 +78,12 @@ public class StockDTO implements Serializable {
         return gson.toJson(this);
     }
 
-    public static StockDTO fromRequest(HttpServletRequest req) throws IOException {
-        Gson gson = new Gson();
-        return gson.fromJson(req.getReader(), StockDTO.class);
-    }
+//    public static StockDTO fromRequest(HttpServletRequest req) throws IOException {
+//        Gson gson = new Gson();
+//        return gson.fromJson(req.getReader(), StockDTO.class);
+//    }
 
+    @Override
     public StocksEntity toEntity() {
         StocksEntity entity = new StocksEntity();
         entity.setId(id);

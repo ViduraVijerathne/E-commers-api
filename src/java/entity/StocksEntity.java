@@ -32,7 +32,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class StocksEntity implements Serializable {
+public class StocksEntity extends MyEntity<StockDTO>{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
