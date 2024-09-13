@@ -24,7 +24,7 @@ import utils.Validators;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserDTO implements Serializable {
+public class UserDTO extends DTO<UserEntity> {
 
     @Expose
     private int id;
@@ -53,6 +53,7 @@ public class UserDTO implements Serializable {
         return gson.toJson(this);
     }
 
+    @Override
     public boolean isValidate() throws ValidationException {
         Validators.validateFirstName(firstName);
         Validators.validateLastName(lastName);
@@ -63,6 +64,7 @@ public class UserDTO implements Serializable {
     }
     
     
+    @Override
     public  UserEntity toEntity(){
         UserEntity entity = new UserEntity();
         entity.setId(id);

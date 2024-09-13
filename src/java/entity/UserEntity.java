@@ -26,7 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class UserEntity {
+public class UserEntity extends MyEntity<UserDTO>{
      @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -50,6 +50,7 @@ public class UserEntity {
     private boolean isVerified;
     
     
+     @Override
     public UserDTO toDTO(){
         UserDTO dto = new UserDTO();
         dto.setId(id);
@@ -62,5 +63,17 @@ public class UserEntity {
                 
         return dto;
     }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+     @Override
+    public int  getId(){
+        return id;
+    }
+
+  
 
 }
