@@ -5,6 +5,7 @@
 package controllers.user;
 
 import dto.AddressBookDTO;
+import dto.DTO;
 import dto.ServiceResponse;
 import exceptions.ServiceException;
 import java.io.IOException;
@@ -34,7 +35,8 @@ public class CartCheckout extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
-        AddressBookDTO addressBookDTO = AddressBookDTO.fromRequest(req);
+//        AddressBookDTO addressBookDTO = AddressBookDTO.fromRequest(req);
+        AddressBookDTO addressBookDTO = DTO.fromRequest(req, AddressBookDTO.class);
 
         try {
             ServiceResponse response = cartService.checkOut(addressBookDTO, AuthUtil.getCurrentUser(req));

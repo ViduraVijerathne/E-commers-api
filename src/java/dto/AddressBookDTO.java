@@ -5,7 +5,7 @@
 package dto;
 
 /**
- *
+ * 
  * @author vidur
  */
 import com.google.gson.Gson;
@@ -26,7 +26,7 @@ import utils.Validators;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AddressBookDTO implements Serializable {
+public class AddressBookDTO extends DTO<AddressBookEntity> {
 
     @Expose
     private int id;
@@ -54,6 +54,7 @@ public class AddressBookDTO implements Serializable {
     @Expose
     private UserDTO user;
 
+    @Override
     public boolean isValidate() throws ValidationException {
         if (city == null || city.isEmpty()) {
             throw new ValidationException("City cannot be empty");
@@ -92,12 +93,13 @@ public class AddressBookDTO implements Serializable {
         Gson gson = MyGson.excludeFieldsWithoutExposeAnnotation();
         return gson.toJson(this);
     }
+//
+//    public static AddressBookDTO fromRequest(HttpServletRequest req) throws IOException {
+//        Gson gson = new Gson();
+//        return gson.fromJson(req.getReader(), AddressBookDTO.class);
+//    }
 
-    public static AddressBookDTO fromRequest(HttpServletRequest req) throws IOException {
-        Gson gson = new Gson();
-        return gson.fromJson(req.getReader(), AddressBookDTO.class);
-    }
-
+    @Override
     public AddressBookEntity toEntity() {
         AddressBookEntity entity = new AddressBookEntity();
         entity.setId(id);

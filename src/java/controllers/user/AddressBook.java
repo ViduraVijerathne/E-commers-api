@@ -5,6 +5,7 @@
 package controllers.user;
 
 import dto.AddressBookDTO;
+import dto.DTO;
 import dto.DistrictDTO;
 import dto.ServiceResponse;
 import exceptions.ServiceException;
@@ -24,18 +25,19 @@ import utils.AuthUtil;
  */
 @WebServlet(name = "AddressBook", urlPatterns = {"/auth/user/addressbook"})
 public class AddressBook extends HttpServlet {
+
     private AddressBookService addressBookService;
 
     @Override
     public void init() throws ServletException {
         addressBookService = new AddressBookService();
     }
-    
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
-        AddressBookDTO dto = AddressBookDTO.fromRequest(req);
+//        AddressBookDTO dto = AddressBookDTO.fromRequest(req);
+        AddressBookDTO dto = DTO.fromRequest(req, AddressBookDTO.class);
         dto.setUser(AuthUtil.getCurrentUser(req));
         try {
             ServiceResponse response = addressBookService.add(dto);
@@ -61,8 +63,5 @@ public class AddressBook extends HttpServlet {
             resp.getWriter().write(ex.getMessage());
         }
     }
-    
-    
-    
 
 }

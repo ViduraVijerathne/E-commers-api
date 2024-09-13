@@ -19,7 +19,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class AddressBookEntity implements Serializable {
+public class AddressBookEntity extends  MyEntity<AddressBookDTO>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
