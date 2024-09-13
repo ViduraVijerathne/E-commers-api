@@ -17,6 +17,10 @@ import org.hibernate.criterion.Restrictions;
  */
 public class AddressBookRepository extends Repository<AddressBookEntity> {
 
+    public AddressBookRepository() {
+        super(AddressBookEntity.class);
+    }
+
     public AddressBookEntity save(AddressBookEntity entity) {
         session = getSession();
         Transaction transaction = session.beginTransaction();
@@ -33,7 +37,8 @@ public class AddressBookRepository extends Repository<AddressBookEntity> {
         List<AddressBookEntity> entities = criteria.list();
         return entities;
     }
-    public AddressBookEntity get(int id){
+
+    public AddressBookEntity get(int id) {
         session = getSession();
         AddressBookEntity entity = (AddressBookEntity) session.load(AddressBookEntity.class, id);
         return entity;

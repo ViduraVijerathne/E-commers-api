@@ -13,7 +13,9 @@ import org.hibernate.Criteria;
  * @author vidur
  */
 public class DistrictRepository extends Repository<DistrictEntity> {
-
+    public DistrictRepository(){
+        super(DistrictEntity.class);
+    }
     public List<DistrictEntity> get() {
         session = getSession();
         Criteria criteria = session.createCriteria(DistrictEntity.class);

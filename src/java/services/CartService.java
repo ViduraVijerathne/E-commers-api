@@ -110,7 +110,7 @@ public class CartService implements Service {
         try {
             UserEntity entity = userRepository.getByEmail(user.getEmail());
             if (entity != null) {
-                List<CartEntity> entities = cartRepository.get(entity.getId());
+                List<CartEntity> entities = cartRepository.getAll(entity.getId());
                 List<CartDTO> dtos = new ArrayList<>();
                 for (CartEntity e : entities) {
                     dtos.add(e.toDTO());
@@ -228,7 +228,7 @@ public class CartService implements Service {
                     AddressBookEntity addressEntity = addressBookRepository.get(address.getId());
                     if (addressEntity != null) {
                         if (addressEntity.getUser().getId() == user.getId()) {
-                            List<CartEntity> cart = cartRepository.get(user.getId());
+                            List<CartEntity> cart = cartRepository.getAll(user.getId());
                             if (cart != null) {
                                 if (!cart.isEmpty()) {
                                     OrderEntity orderEntity = makeOrderObject(cart, user);

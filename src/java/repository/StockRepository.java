@@ -18,6 +18,10 @@ import org.hibernate.criterion.Restrictions;
  */
 public class StockRepository extends Repository<StocksEntity> {
 
+    public StockRepository() {
+        super(StocksEntity.class);
+    }
+
     public StocksEntity save(StocksEntity entity) {
         session = getSession();
         Transaction transaction = session.beginTransaction();

@@ -17,6 +17,10 @@ import org.hibernate.criterion.Restrictions;
  */
 public class CartRepository extends Repository<CartEntity> {
 
+    public CartRepository() {
+        super(CartEntity.class);
+    }
+
     public CartEntity save(CartEntity entity) {
         session = getSession();
         Transaction transaction = session.getTransaction();
@@ -45,7 +49,7 @@ public class CartRepository extends Repository<CartEntity> {
         return entity;
     }
 
-    public List<CartEntity> get(int userID) {
+    public List<CartEntity> getAll(int userID) {
         session = getSession();
         Criteria criteria = session.createCriteria(CartEntity.class);
         criteria.add(Restrictions.eq("user.id", userID));

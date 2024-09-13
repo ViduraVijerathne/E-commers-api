@@ -21,6 +21,10 @@ import org.hibernate.criterion.Restrictions;
  */
 public class OrderRepository extends Repository<OrderEntity> {
 
+    public OrderRepository() {
+        super(OrderEntity.class);
+    }
+
     public OrderEntity add(OrderEntity entity) {
         try {
 

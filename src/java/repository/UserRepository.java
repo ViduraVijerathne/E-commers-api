@@ -22,6 +22,10 @@ import services.Mail;
  */
 public class UserRepository extends Repository<UserEntity> {
 
+    public UserRepository() {
+        super(UserEntity.class);
+    }
+
     public UserEntity getByEmail(String email) {
         session = getSession();
         Criteria criteria1 = session.createCriteria(UserEntity.class);

@@ -4,6 +4,7 @@
  */
 package repository;
 
+import entity.AddressBookEntity;
 import entity.MyEntity;
 import lombok.Setter;
 import org.hibernate.Session;
@@ -18,8 +19,10 @@ abstract class Repository<E extends MyEntity> {
 
     Session session;
     private boolean isHaveMainPrimatyKey = true;
+    private final Class<E> entityType;
 
-    public Repository() {
+    public Repository(Class<E> entityType) {
+        this.entityType = entityType;
         session = config.HibernateUtil.getSessionFactory().openSession();
     }
 
@@ -38,6 +41,11 @@ abstract class Repository<E extends MyEntity> {
             session.save(entity);
         }
         transaction.commit();
+        return entity;
+    }
+
+    public E get(int id) {
+        E entity = (E) session.load(entityType, id);
         return entity;
     }
 
