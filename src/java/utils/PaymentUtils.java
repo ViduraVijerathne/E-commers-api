@@ -30,12 +30,13 @@ public class PaymentUtils {
         return total;
     }
 
+    @Deprecated
     public static HashMap<String, Object> makePayhereObjectOld(OrderEntity order) {
         HashMap<String, Object> obj = new HashMap<>();
         obj.put("sandbox", true);  // true if using Sandbox Merchant ID
-        obj.put("merchant_id", "1221323");  // Replace with your Merchant ID
-        obj.put("merchant_secret", "Mzc1MTk1NTY2NzMzNTY4MDI3MjMzMzYxOTM0NTUxOTk5MzEwNDg0");  // Replace with your Merchant Secret
-        obj.put("notify_url", "http://sample.com/notify");
+        obj.put("merchant_id", "1228223");  // Replace with your Merchant ID
+        obj.put("merchant_secret", "MTI3Mzg5NzMxNTc3MjM2Nzg5NjI4ODk0NTI2MDAyNzQ0MjAzNzU2");  // Replace with your Merchant Secret
+        obj.put("notify_url", "http://192.168.8.126:8080/viver_web3/AfrerPayment");
         obj.put("order_id", String.valueOf(order.getId()));
         obj.put("items", order.getOrderItems().get(0).getStocks().getProduct());
         obj.put("amount", calculateTotal(order.getOrderItems()));
@@ -65,8 +66,8 @@ public class PaymentUtils {
 
         // Set the values directly into the PaymentObject
         payment.setSandbox(true);  // true if using Sandbox Merchant ID
-        payment.setMerchant_id("1221323");  // Replace with your Merchant ID
-        payment.setMerchantSecret("Mzc1MTk1NTY2NzMzNTY4MDI3MjMzMzYxOTM0NTUxOTk5MzEwNDg0");  // Replace with your Merchant Secret
+        payment.setMerchant_id("1228223");  // Replace with your Merchant ID
+        payment.setMerchantSecret("MTI3Mzg5NzMxNTc3MjM2Nzg5NjI4ODk0NTI2MDAyNzQ0MjAzNzU2");  // Replace with your Merchant Secret
         payment.setNotify_url("http://192.168.8.126:8080/viver_web3/afterpayment?key=123");
 
         // Order-related data

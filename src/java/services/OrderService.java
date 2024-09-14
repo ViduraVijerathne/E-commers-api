@@ -165,8 +165,8 @@ public class OrderService implements Service {
                 }
 
                 for (OrderItemEntity itemEntity : orderEntity.getOrderItems()) {
-                    if(!Objects.equals(itemEntity.getStocks().getProduct().getShop().getUser().getId(), userEntity.getId())){
-                        throw  new ServiceException(new ServiceResponseObject(false, "you have no access to this order item").toString(), 400);
+                    if (!Objects.equals(itemEntity.getStocks().getProduct().getShop().getUser().getId(), userEntity.getId())) {
+                        throw new ServiceException(new ServiceResponseObject(false, "you have no access to this order item").toString(), 400);
                     }
                     if (itemEntity.getId() == itemID) {
 
@@ -192,6 +192,48 @@ public class OrderService implements Service {
                 }
 
                 throw new ServiceException(new ServiceResponseObject(false, " order Item not found").toString(), 400);
+
+            } else {
+                throw new ServiceException(new ServiceResponseObject(false, " user not found").toString(), 400);
+
+            }
+        } catch (ServiceException ex) {
+            throw ex;
+        } catch (ObjectNotFoundException ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, "user not found").toString(), 400);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, ex.getMessage()).toString(), 400);
+
+        }
+    }
+
+    public ServiceResponse updateOrderStatus(UserDTO user, String strOrderID, String paymentID, OrderStatus Status) throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+        try {
+            UserEntity userEntity = userRepository.getByEmail(user.getEmail());
+            if (userEntity != null) {
+
+                Validators.validateInt(strOrderID, "Order id");
+
+                int orderID = Integer.parseInt(strOrderID);
+                OrderEntity orderEntity;
+                try {
+                    orderEntity = orderRepository.get(orderID);
+                    orderEntity.getAddressBook();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    throw new ServiceException(new ServiceResponseObject(false, "order  not found").toString(), 400);
+                }
+
+                orderEntity.setStatus(Status);
+                orderEntity.setRemarks(paymentID);
+                orderRepository.update(orderEntity);
+                response.setData(new ServiceResponseObject(true, orderEntity.toDTO()));
+                response.setStatusCode(200);
+                return response;
 
             } else {
                 throw new ServiceException(new ServiceResponseObject(false, " user not found").toString(), 400);

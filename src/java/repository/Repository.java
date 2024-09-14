@@ -57,7 +57,6 @@ abstract class Repository<E extends MyEntity> {
     }
 
     public E remove(E entity) {
-        session = getSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
         session.delete(entity);
@@ -66,7 +65,6 @@ abstract class Repository<E extends MyEntity> {
     }
     
     public E update(E entity) {
-        session = getSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
         session.update(entity);
