@@ -85,4 +85,25 @@ public class OrderRepository extends Repository<OrderEntity> {
         transaction.commit();
 
     }
+    
+    @Override
+    public OrderEntity save(OrderEntity entity) {
+    Transaction transaction = null;
+    try {
+        session = getSession();
+        transaction = session.beginTransaction(); // Start transaction
+
+        int id = (Integer) session.save(entity);
+        entity.setId(id);
+
+        transaction.commit(); // Commit transaction
+        return entity;
+    } catch (Exception ex) {
+        if (transaction != null) {
+            transaction.rollback(); // Rollback in case of error
+        }
+        ex.printStackTrace();
+        throw ex;
+    }
+}
 }

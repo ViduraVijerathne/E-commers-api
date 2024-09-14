@@ -36,7 +36,7 @@ public class PaymentUtils {
         obj.put("sandbox", true);  // true if using Sandbox Merchant ID
         obj.put("merchant_id", "1228223");  // Replace with your Merchant ID
         obj.put("merchant_secret", "MTI3Mzg5NzMxNTc3MjM2Nzg5NjI4ODk0NTI2MDAyNzQ0MjAzNzU2");  // Replace with your Merchant Secret
-        obj.put("notify_url", "http://192.168.8.126:8080/viver_web3/AfrerPayment");
+        obj.put("notify_url", "http://sample.com/notify");
         obj.put("order_id", String.valueOf(order.getId()));
         obj.put("items", order.getOrderItems().get(0).getStocks().getProduct());
         obj.put("amount", calculateTotal(order.getOrderItems()));
@@ -68,7 +68,7 @@ public class PaymentUtils {
         payment.setSandbox(true);  // true if using Sandbox Merchant ID
         payment.setMerchant_id("1228223");  // Replace with your Merchant ID
         payment.setMerchantSecret("MTI3Mzg5NzMxNTc3MjM2Nzg5NjI4ODk0NTI2MDAyNzQ0MjAzNzU2");  // Replace with your Merchant Secret
-        payment.setNotify_url("http://192.168.8.126:8080/viver_web3/afterpayment?key=123");
+        payment.setNotify_url("http://sample.com/notify");
 
         // Order-related data
         payment.setOrder_id(String.valueOf(order.getId()));

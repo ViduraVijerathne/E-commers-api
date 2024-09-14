@@ -4,6 +4,9 @@
  */
 package controllers.user;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import dto.OrderDTO;
 import dto.OrderStatus;
 import dto.ServiceResponse;
 import dto.UserDTO;
@@ -15,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import services.CartService;
 import services.OrderService;
 import utils.AuthUtil;
 
@@ -26,10 +30,32 @@ import utils.AuthUtil;
 public class BuyNow extends HttpServlet {
 
     private OrderService orderService;
+    private CartService cartService;
 
     @Override
     public void init() throws ServletException {
         orderService = new OrderService();
+        cartService = new CartService();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+//        Gson gson = new Gson();
+//        JsonObject obj = gson.fromJson(req.getReader(), JsonObject.class);
+//        String stockID = obj.get("stockID").getAsString();
+//        String qty = obj.get("qty").getAsString();
+        UserDTO user = AuthUtil.getCurrentUser(req);
+        OrderDTO dto = OrderDTO.fromRequest(req, OrderDTO.class);
+        dto.setUser(user);
+        try {
+            ServiceResponse response = cartService.checkOut(dto);
+            resp.getWriter().print(response.toString());
+            resp.setStatus(response.getStatusCode());
+        } catch (ServiceException ex) {
+            resp.setStatus(ex.getStatusCode());
+            resp.getWriter().write(ex.getMessage());
+        }
     }
 
 //    confirm 
@@ -47,7 +73,6 @@ public class BuyNow extends HttpServlet {
             resp.setStatus(ex.getStatusCode());
             resp.getWriter().write(ex.getMessage());
         }
-
 
     }
 

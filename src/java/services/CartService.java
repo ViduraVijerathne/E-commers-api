@@ -7,10 +7,13 @@ package services;
 import com.google.gson.Gson;
 import dto.AddressBookDTO;
 import dto.CartDTO;
+import dto.OrderDTO;
+import dto.OrderItemDTO;
 import dto.OrderStatus;
 import dto.PaymentObject;
 import dto.ServiceResponse;
 import dto.ServiceResponseObject;
+import dto.StockDTO;
 import dto.UserDTO;
 import dto.WishlistDTO;
 import entity.AddressBookEntity;
@@ -216,7 +219,6 @@ public class CartService implements Service {
         return orderEntity;
     }
 
-    
     public ServiceResponse checkOut(AddressBookDTO address, UserDTO user) throws ServiceException {
         ServiceResponse response = new ServiceResponse();
         if (address == null) {
@@ -242,11 +244,11 @@ public class CartService implements Service {
 //                                    for (CartEntity c : cart) {
 //                                        CartEntity removedEntity = cartRepository.remove(c);
 //                                    }
-                                     PaymentObject payhereObj = PaymentUtils.makePayhereObject(orderEntity);
+                                    PaymentObject payhereObj = PaymentUtils.makePayhereObject(orderEntity);
                                     Gson gson = new Gson();
-                                    String json  = gson.toJson(payhereObj);
-                                    
-                                    response.setData(new ServiceResponseObject(true,payhereObj));
+                                    String json = gson.toJson(payhereObj);
+
+                                    response.setData(new ServiceResponseObject(true, payhereObj));
                                     response.setStatusCode(200);
                                 } else {
                                     throw new ServiceException(new ServiceResponseObject(false, "cart is empty").toString(), 400);
@@ -286,6 +288,89 @@ public class CartService implements Service {
             throw new ServiceException(new ServiceResponseObject(false, ex.getMessage()).toString(), 400);
 
         }
+        return response;
+    }
+
+    synchronized public ServiceResponse checkOut(OrderDTO order) throws ServiceException {
+        ServiceResponse response = new ServiceResponse();
+
+        if (order.getAddressBook() == null || order.getAddressBook().getId() <= 0) {
+            throw new ServiceException(new ServiceResponseObject(false, "address not found").toString(), 400);
+        }
+        if (order.getOrderItems() == null || order.getOrderItems().isEmpty()) {
+            throw new ServiceException(new ServiceResponseObject(false, "no order item not found").toString(), 400);
+        }
+        if (order.getOrderItems().get(0).getStock() == null || order.getOrderItems().get(0).getStock().getId() <= 0) {
+            throw new ServiceException(new ServiceResponseObject(false, "no stock found").toString(), 400);
+        }
+
+        UserEntity user;
+        try {
+            user = userRepository.get(order.getUser().getId());
+            user.getEmail();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, "no user found").toString(), 400);
+
+        }
+
+        StockDTO stock = order.getOrderItems().get(0).getStock();
+        OrderItemDTO orderItem = order.getOrderItems().get(0);
+
+        StocksEntity stockEntity;
+        try {
+            stockEntity = stockRepository.get(stock.getId());
+            stock.getColor();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, "no stock found").toString(), 400);
+        }
+
+        if (stockEntity.getQuantity() < orderItem.getQty()) {
+            throw new ServiceException(new ServiceResponseObject(false, "no quantity to buy this item ").toString(), 400);
+        }
+
+        AddressBookEntity address;
+        try {
+            address = addressBookRepository.get(order.getAddressBook().getId());
+            if (address == null || address.getCity() == null) {
+                throw new Exception("invalid address id");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new ServiceException(new ServiceResponseObject(false, "invalid address id").toString(), 400);
+        }
+
+        List<OrderItemEntity> items = new ArrayList<>();
+        OrderItemEntity item = new OrderItemEntity();
+        
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setAddressBook(address);
+        orderEntity.setStatus(OrderStatus.PAYMENTPROCESSING);
+        orderEntity.setDatetime(new Date());
+        orderEntity.setUser(user);
+        orderEntity.setOrderItems(items);
+        
+        item.setStatus(OrderStatus.ORDERPROCESSING);
+        item.setStocks(stockEntity);
+        item.setQty(orderItem.getQty());
+        item.setId(0);
+        orderEntity.addOrderItem(item);
+        try {
+            
+            OrderEntity saved = orderRepository.save(orderEntity);
+            stockEntity.setQuantity(stockEntity.getQuantity() - item.getQty());
+            stockRepository.update(stockEntity);
+            PaymentObject payhereObj = PaymentUtils.makePayhereObject(saved);
+            response.setData(new ServiceResponseObject(true, payhereObj));
+            response.setStatusCode(200);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+            throw new ServiceException(new ServiceResponseObject(false, "something went wrong ").toString(), 400);
+
+        }
+
         return response;
     }
 }
